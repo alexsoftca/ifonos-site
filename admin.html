@@ -540,7 +540,51 @@
 
   async function changeStatus(id, status) {
     if (!db) return;
-    try { await db.collection('appointments').doc(id).update({status}); } catch(e) { console.error(e); }
+    const a = allAppointments.find(x => x.id === id);
+    if (!a) return;
+
+    try {
+      await db.collection('appointments').doc(id).update({status});
+    } catch(e) { console.error(e); return; }
+
+    // Auto-open SMS to client based on new status
+    const phone = (a.phone || '').replace(/\D/g, '');
+    if (!phone) return;
+
+    let msg = '';
+    const nombre = (a.name || '').split(' ')[0]; // First name only
+    const fecha = a.date || 'por confirmar';
+    const hora = a.time || '';
+    const servicio = a.service || '';
+    const device = a.device || '';
+
+    if (status === 'confirmed') {
+      msg = `Hola ${nombre}! 👋 Tu cita con Ifonos ha sido CONFIRMADA ✅\n\n`
+        + `📱 ${device}${a.model ? ' — ' + a.model : ''}\n`
+        + `🔧 ${servicio}\n`
+        + `📅 ${fecha}${hora ? ' · ' + hora : ''}\n`
+        + `📍 ${a.address || ''}\n\n`
+        + `Un técnico llegará en el horario indicado. Si necesitas cambiar algo, responde a este mensaje o llama al (346) 795-5343.\n\n`
+        + `— Ifonos`;
+    } else if (status === 'completed') {
+      msg = `Hola ${nombre}! Tu reparación ha sido COMPLETADA ✅🎉\n\n`
+        + `📱 ${device} — ${servicio}\n`
+        + `🛡️ Tu reparación incluye 90 días de garantía.\n\n`
+        + `Si tienes algún problema, no dudes en contactarnos al (346) 795-5343.\n\n`
+        + `¡Gracias por confiar en Ifonos! Si te gustó el servicio, una reseña en Google nos ayuda mucho 🙏\n\n`
+        + `— Ifonos`;
+    } else if (status === 'cancelled') {
+      msg = `Hola ${nombre}, tu cita con Ifonos ha sido cancelada.\n\n`
+        + `Si deseas reagendar, puedes hacerlo en ifonos.com o escribirnos al (346) 795-5343.\n\n`
+        + `— Ifonos`;
+    }
+
+    // Open SMS with pre-written message (works with Google Voice too)
+    if (msg) {
+      const encoded = encodeURIComponent(msg);
+      const smsURL = 'sms:+1' + phone + '?body=' + encoded;
+      window.open(smsURL, '_blank');
+    }
   }
 
   async function deleteAppt(id) {
