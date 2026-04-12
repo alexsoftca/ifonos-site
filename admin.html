@@ -547,44 +547,77 @@
       await db.collection('appointments').doc(id).update({status});
     } catch(e) { console.error(e); return; }
 
-    // Auto-open SMS to client based on new status
+    // Auto-send SMS to client based on new status
     const phone = (a.phone || '').replace(/\D/g, '');
     if (!phone) return;
 
     let msg = '';
-    const nombre = (a.name || '').split(' ')[0]; // First name only
+    const nombre = (a.name || '').split(' ')[0];
     const fecha = a.date || 'por confirmar';
     const hora = a.time || '';
     const servicio = a.service || '';
     const device = a.device || '';
 
     if (status === 'confirmed') {
-      msg = `Hola ${nombre}! 👋 Tu cita con Ifonos ha sido CONFIRMADA ✅\n\n`
-        + `📱 ${device}${a.model ? ' — ' + a.model : ''}\n`
-        + `🔧 ${servicio}\n`
-        + `📅 ${fecha}${hora ? ' · ' + hora : ''}\n`
-        + `📍 ${a.address || ''}\n\n`
-        + `Un técnico llegará en el horario indicado. Si necesitas cambiar algo, responde a este mensaje o llama al (346) 795-5343.\n\n`
-        + `— Ifonos`;
+      msg = 'Hola ' + nombre + '! 👋 Tu cita con Ifonos ha sido CONFIRMADA ✅\n\n'
+        + '📱 ' + device + (a.model ? ' — ' + a.model : '') + '\n'
+        + '🔧 ' + servicio + '\n'
+        + '📅 ' + fecha + (hora ? ' · ' + hora : '') + '\n'
+        + '📍 ' + (a.address || '') + '\n\n'
+        + 'Un técnico llegará en el horario indicado. Si necesitas cambiar algo, responde a este mensaje o llama al (346) 795-5343.\n\n'
+        + '— Ifonos';
     } else if (status === 'completed') {
-      msg = `Hola ${nombre}! Tu reparación ha sido COMPLETADA ✅🎉\n\n`
-        + `📱 ${device} — ${servicio}\n`
-        + `🛡️ Tu reparación incluye 90 días de garantía.\n\n`
-        + `Si tienes algún problema, no dudes en contactarnos al (346) 795-5343.\n\n`
-        + `¡Gracias por confiar en Ifonos! Si te gustó el servicio, una reseña en Google nos ayuda mucho 🙏\n\n`
-        + `— Ifonos`;
+      msg = 'Hola ' + nombre + '! Tu reparación ha sido COMPLETADA ✅🎉\n\n'
+        + '📱 ' + device + ' — ' + servicio + '\n'
+        + '🛡️ Tu reparación incluye 90 días de garantía.\n\n'
+        + 'Si tienes algún problema, no dudes en contactarnos al (346) 795-5343.\n\n'
+        + '¡Gracias por confiar en Ifonos! Si te gustó el servicio, una reseña en Google nos ayuda mucho 🙏\n\n'
+        + '— Ifonos';
     } else if (status === 'cancelled') {
-      msg = `Hola ${nombre}, tu cita con Ifonos ha sido cancelada.\n\n`
-        + `Si deseas reagendar, puedes hacerlo en ifonos.com o escribirnos al (346) 795-5343.\n\n`
-        + `— Ifonos`;
+      msg = 'Hola ' + nombre + ', tu cita con Ifonos ha sido cancelada.\n\n'
+        + 'Si deseas reagendar, puedes hacerlo en ifonos.com o escribirnos al (346) 795-5343.\n\n'
+        + '— Ifonos';
     }
 
-    // Open SMS with pre-written message (works with Google Voice too)
-    if (msg) {
+    if (!msg) return;
+
+    // Detect if mobile or PC
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // Mobile → open Google Voice app or native SMS with pre-filled message
       const encoded = encodeURIComponent(msg);
       const smsURL = 'sms:+1' + phone + '?body=' + encoded;
       window.open(smsURL, '_blank');
+    } else {
+      // PC → copy message to clipboard + open Google Voice with the number
+      try {
+        await navigator.clipboard.writeText(msg);
+      } catch(e) {
+        // Fallback: prompt with message to copy
+        prompt('Copia este mensaje y pégalo en Google Voice:', msg);
+      }
+      // Format phone for Google Voice URL: +1XXXXXXXXXX
+      const gvURL = 'https://voice.google.com/u/0/messages?recipient=%2B1' + phone;
+      window.open(gvURL, '_blank');
+
+      // Show notification
+      showToast('✅ Mensaje copiado al portapapeles. Pégalo en Google Voice.');
     }
+  }
+
+  // Toast notification
+  function showToast(text) {
+    let toast = document.getElementById('toast-msg');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast-msg';
+      toast.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2dd27b;color:#000;padding:12px 24px;border-radius:10px;font-size:0.82rem;font-weight:600;font-family:var(--font);z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:90%;text-align:center;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = text;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 3500);
   }
 
   async function deleteAppt(id) {
