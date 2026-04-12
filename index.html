@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ifonos — Device Repair at Your Door</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfbfd;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-secondary: #86868b;
+      --accent: #1d1d1f;
+      --accent-blue: #0099cc;
+      --border: rgba(0,0,0,0.06);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --max-w: 1120px;
+      --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(251,251,253,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 max(22px, env(safe-area-inset-left));
+      max-width: 100%;
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-brand span { color: var(--text-secondary); font-weight: 400; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent-blue) !important;
+      color: #fff !important;
+      padding: 7px 16px;
+      border-radius: 980px;
+      font-weight: 500 !important;
+      font-size: 0.78rem !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85 !important; }
+    .nav-lang {
+      background: none;
+      border: 1px solid rgba(0,0,0,0.15);
+      color: var(--text-secondary);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 980px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .nav-lang:hover { border-color: var(--text); color: var(--text); }
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .menu-toggle svg { width: 22px; height: 22px; stroke: var(--text); }
+
+    /* ─── MOBILE MENU ─── */
+    @media (max-width: 768px) {
+      .nav-links.show-mobile {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 52px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(251,251,253,0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 2rem 1.5rem;
+        gap: 0.4rem;
+        z-index: 999;
+        animation: menuSlide 0.3s ease forwards;
+        align-items: stretch;
+      }
+      .nav-links.show-mobile li {
+        border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      }
+      .nav-links.show-mobile li:last-child { border-bottom: none; }
+      .nav-links.show-mobile a {
+        display: block;
+        font-size: 1.05rem;
+        padding: 1rem 0;
+        color: var(--text);
+        font-weight: 500;
+      }
+      .nav-links.show-mobile .nav-cta {
+        margin-top: 0.8rem;
+        text-align: center;
+        padding: 14px 28px;
+        display: block;
+      }
+      .nav-links.show-mobile .nav-lang {
+        margin-top: 0.5rem;
+        align-self: flex-start;
+        font-size: 0.82rem;
+        padding: 6px 14px;
+      }
+    }
+    @keyframes menuSlide {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140%;
+      height: 100%;
+      background: radial-gradient(ellipse 50% 60% at 50% 40%, rgba(0,153,204,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s var(--transition) forwards;
+    }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.07;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      max-width: 700px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s var(--transition) forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent-blue);
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 460px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s var(--transition) forwards;
+    }
+    .hero-actions {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s var(--transition) forwards;
+    }
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 980px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: -0.01em;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: scale(1.02); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-blue);
+      padding: 14px 28px;
+      border-radius: 980px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .btn-secondary:hover { opacity: 0.65; }
+
+    /* Hero image band */
+    .hero-image-band {
+      margin-top: 4rem;
+      width: 100%;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 1s 0.65s var(--transition) forwards;
+    }
+    .hero-image-band img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 24px;
+      filter: grayscale(15%);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 100px 24px; }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--text);
+      max-width: 500px;
+    }
+    .section-title em { font-style: italic; font-weight: 300; color: var(--accent-blue); }
+    .section-desc {
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 440px;
+    }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--surface); }
+    .services-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .services-header { margin-bottom: 3.5rem; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--bg);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+      position: relative;
+    }
+    .service-card:hover { background: #f0f0f5; }
+    .service-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .service-icon svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--text);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .service-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .service-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+    .service-price {
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── DEVICES ─── */
+    #devices { background: var(--bg); }
+    .devices-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .devices-header { margin-bottom: 3.5rem; }
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+    .device-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border: 0.5px solid var(--border);
+      transition: transform 0.3s var(--transition), box-shadow 0.3s;
+    }
+    .device-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    .device-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 1.2rem;
+      display: block;
+    }
+    .device-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--text);
+      fill: none;
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .device-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .device-models {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ─── PHOTO BREAK ─── */
+    .photo-break {
+      padding: 0;
+      width: 100%;
+      margin: 0;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      overflow: hidden;
+    }
+    .photo-grid img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+      transition: filter 0.4s, transform 0.5s;
+    }
+    .photo-grid img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.03);
+    }
+
+    /* ─── WHY ─── */
+    #why { background: var(--text); color: #f5f5f7; padding: 120px 24px; }
+    #why .section-label { color: rgba(255,255,255,0.3); }
+    #why .section-title { color: #f5f5f7; }
+    #why .section-title em { color: #33bbee; }
+    .why-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .why-header { margin-bottom: 4rem; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .why-item {
+      padding: 0 2rem;
+      border-left: 0.5px solid rgba(255,255,255,0.1);
+    }
+    .why-item:first-child { border-left: none; padding-left: 0; }
+    .why-number {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      color: #33bbee;
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+    .why-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #f5f5f7;
+      letter-spacing: -0.01em;
+    }
+    .why-text {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ─── ZONE ─── */
+    #zone { background: var(--surface); }
+    .zone-wrap { max-width: 640px; margin: 0 auto; text-align: center; }
+    .zone-header { margin-bottom: 2.5rem; }
+    .zone-header .section-title { margin: 0 auto; text-align: center; }
+    .zone-header .section-desc { margin: 1rem auto 0; text-align: center; }
+    .zone-box {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      border: 0.5px solid var(--border);
+    }
+    .zip-input-row {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .zip-input {
+      background: var(--surface);
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      width: 160px;
+      text-align: center;
+      letter-spacing: 0.15em;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .zip-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(0,153,204,0.1); }
+    .zip-btn {
+      background: var(--text);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .zip-btn:hover { opacity: 0.8; }
+    .zone-result {
+      display: none;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 1.5rem;
+      border: 1.5px solid var(--accent-blue);
+      text-align: left;
+    }
+    .zone-result.show { display: block; }
+    .zone-result-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .zone-result-details { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+    .zone-result-details span { color: var(--accent-blue); font-weight: 600; }
+    .zone-error { display: none; color: #ff3b30; font-size: 0.82rem; margin-top: 0.8rem; }
+    .zone-error.show { display: block; }
+    .zone-badges {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+    .zone-badge {
+      border-radius: 12px;
+      padding: 1rem 0.6rem;
+      text-align: center;
+      background: rgba(0,0,0,0.02);
+      border: 0.5px solid var(--border);
+    }
+    .zb-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin: 0 auto 0.5rem;
+    }
+    .zb-dot.green { background: #34c759; }
+    .zb-dot.yellow { background: #ff9f0a; }
+    .zb-dot.orange { background: #ff6723; }
+    .zb-name { font-size: 0.72rem; font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+    .zb-miles { font-size: 0.68rem; color: var(--text-secondary); margin-top: 0.15rem; }
+    .zb-time { font-size: 0.68rem; font-weight: 600; margin-top: 0.25rem; }
+    .zb-time.green { color: #34c759; }
+    .zb-time.yellow { color: #c79200; }
+    .zb-time.orange { color: #ff6723; }
+
+    /* ─── HOW ─── */
+    #how { background: var(--bg); }
+    .how-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .how-header { margin-bottom: 3.5rem; }
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 26px;
+      left: 26px;
+      right: 26px;
+      height: 0.5px;
+      background: rgba(0,0,0,0.12);
+    }
+    .step {
+      text-align: center;
+      padding: 0 1.2rem;
+      position: relative;
+    }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--surface);
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .step-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ─── APPOINTMENT ─── */
+    #appointment { background: var(--surface); }
+    .appt-wrap { max-width: 720px; margin: 0 auto; }
+    .appt-header { text-align: center; margin-bottom: 3rem; }
+    .appt-header .section-title { margin: 0 auto; }
+    .appt-header .section-desc { margin: 1rem auto 0; text-align: center; }
+    .appt-sub {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--accent-blue);
+      font-weight: 500;
+    }
+    .appointment-form {
+      background: var(--bg);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 0.5px solid var(--border);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--surface);
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0,153,204,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-submit-row { margin-top: 1.8rem; text-align: center; }
+    .btn-submit {
+      background: var(--accent-blue);
+      color: #fff;
+      padding: 15px 40px;
+      border-radius: 980px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      transition: opacity 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .btn-submit:hover { opacity: 0.85; }
+    .form-note {
+      margin-top: 0.8rem;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .success-msg { display: none; text-align: center; padding: 2rem; }
+    .success-msg.show { display: block; }
+    .success-check {
+      width: 52px; height: 52px;
+      border: 2px solid #34c759;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .success-check svg { width: 24px; height: 24px; stroke: #34c759; fill: none; stroke-width: 2.5; }
+    .success-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+    .success-sub { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; font-weight: 300; }
+
+    /* ─── PAYMENT ─── */
+    .payment-row {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0 24px 80px;
+    }
+    .pay-badge {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 980px;
+      padding: 8px 18px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pay-badge svg {
+      width: 16px; height: 16px;
+      stroke: var(--text-secondary);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* ─── REVIEWS ─── */
+    #reviews { background: var(--bg); }
+    .reviews-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .reviews-header { margin-bottom: 3rem; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .review-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      border: 0.5px solid var(--border);
+      transition: transform 0.3s var(--transition), box-shadow 0.3s;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+    .stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 1rem;
+    }
+    .stars svg { width: 14px; height: 14px; fill: var(--text); }
+    .review-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+    .review-author { display: flex; align-items: center; gap: 10px; }
+    .review-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .review-name { font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em; }
+    .review-location { font-size: 0.72rem; color: var(--text-secondary); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--text); color: rgba(255,255,255,0.5); padding: 70px 24px 40px; }
+    .footer-grid {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .footer-brand span { color: rgba(255,255,255,0.4); font-weight: 400; }
+    .footer-tagline { font-size: 0.82rem; line-height: 1.65; margin-bottom: 1.5rem; font-weight: 300; }
+    .footer-contact { display: flex; flex-direction: column; gap: 6px; }
+    .footer-contact a {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 300;
+    }
+    .footer-contact a:hover { color: #fff; }
+    .footer-hours { margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+    .footer-col h4 {
+      color: #f5f5f7;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul a {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 300;
+    }
+    .footer-col ul a:hover { color: #fff; }
+    .footer-social { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .footer-social a {
+      color: rgba(255,255,255,0.35);
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 400;
+    }
+    .footer-social a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: var(--max-w);
+      margin: 2rem auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ─── SMS FLOAT ─── */
+    .sms-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      background: var(--text);
+      border-radius: 980px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      text-decoration: none;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s var(--transition) forwards;
+    }
+    .sms-float:hover { transform: scale(1.05); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .sms-float svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+
+    /* ─── LANG ─── */
+    [data-es] { display: none; }
+    body.es [data-en] { display: none; }
+    body.es [data-es] { display: unset; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MOTION & ANIMATIONS ─── */
+
+    /* Service icons — float on hover */
+    .service-card .service-icon svg {
+      transition: transform 0.5s var(--transition), stroke 0.3s;
+    }
+    .service-card:hover .service-icon svg {
+      transform: translateY(-4px) scale(1.1);
+      stroke: var(--accent-blue);
+    }
+    /* Service card shimmer line */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+      transform: scaleX(0);
+      transition: transform 0.5s var(--transition);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    /* Device cards — icon bounce + glow ring */
+    .device-card .device-icon svg {
+      transition: transform 0.4s var(--transition), stroke 0.3s;
+    }
+    .device-card:hover .device-icon svg {
+      transform: scale(1.15) rotate(-3deg);
+      stroke: var(--accent-blue);
+    }
+    .device-card::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,153,204,0.08) 0%, transparent 70%);
+      transform: translate(-50%, -70%) scale(0);
+      transition: transform 0.5s var(--transition);
+      pointer-events: none;
+    }
+    .device-card { position: relative; overflow: hidden; }
+    .device-card:hover::after { transform: translate(-50%, -70%) scale(3); }
+
+    /* Why section numbers — pulse glow */
+    .why-number {
+      transition: text-shadow 0.4s, transform 0.3s;
+    }
+    .why-item:hover .why-number {
+      text-shadow: 0 0 30px rgba(77,163,255,0.4);
+      transform: scale(1.05);
+    }
+
+    /* Steps — number pulse on scroll */
+    .step-num {
+      transition: background 0.4s, color 0.4s, transform 0.3s, box-shadow 0.4s;
+    }
+    .steps-row.visible .step:nth-child(1) .step-num { animation: stepPop 0.5s 0.1s var(--transition) both; }
+    .steps-row.visible .step:nth-child(2) .step-num { animation: stepPop 0.5s 0.3s var(--transition) both; }
+    .steps-row.visible .step:nth-child(3) .step-num { animation: stepPop 0.5s 0.5s var(--transition) both; }
+    .steps-row.visible .step:nth-child(4) .step-num { animation: stepPop 0.5s 0.7s var(--transition) both; }
+    @keyframes stepPop {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Review cards — staggered entrance */
+    .reviews-grid.visible .review-card:nth-child(1) { animation: cardSlide 0.6s 0.1s var(--transition) both; }
+    .reviews-grid.visible .review-card:nth-child(2) { animation: cardSlide 0.6s 0.25s var(--transition) both; }
+    .reviews-grid.visible .review-card:nth-child(3) { animation: cardSlide 0.6s 0.4s var(--transition) both; }
+    @keyframes cardSlide {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Stars shimmer on card hover */
+    .review-card:hover .stars svg {
+      animation: starTwinkle 0.4s var(--transition);
+    }
+    .review-card:hover .stars svg:nth-child(2) { animation-delay: 0.05s; }
+    .review-card:hover .stars svg:nth-child(3) { animation-delay: 0.1s; }
+    .review-card:hover .stars svg:nth-child(4) { animation-delay: 0.15s; }
+    .review-card:hover .stars svg:nth-child(5) { animation-delay: 0.2s; }
+    @keyframes starTwinkle {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35) rotate(15deg); }
+      100% { transform: scale(1); }
+    }
+
+    /* Photo grid — staggered reveal */
+    .photo-grid.stagger-reveal img {
+      opacity: 0;
+      transform: scale(1.08);
+      transition: opacity 0.7s, transform 0.8s var(--transition);
+    }
+    .photo-grid.stagger-reveal.visible img { opacity: 1; transform: scale(1); }
+    .photo-grid.stagger-reveal.visible img:nth-child(2) { transition-delay: 0.15s; }
+    .photo-grid.stagger-reveal.visible img:nth-child(3) { transition-delay: 0.3s; }
+
+    /* Service grid — staggered entrance */
+    .services-grid.visible .service-card {
+      animation: serviceReveal 0.6s var(--transition) both;
+    }
+    .services-grid.visible .service-card:nth-child(2) { animation-delay: 0.08s; }
+    .services-grid.visible .service-card:nth-child(3) { animation-delay: 0.16s; }
+    .services-grid.visible .service-card:nth-child(4) { animation-delay: 0.24s; }
+    .services-grid.visible .service-card:nth-child(5) { animation-delay: 0.32s; }
+    .services-grid.visible .service-card:nth-child(6) { animation-delay: 0.4s; }
+    @keyframes serviceReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Device grid — staggered pop */
+    .devices-grid.visible .device-card {
+      animation: devicePop 0.5s var(--transition) both;
+    }
+    .devices-grid.visible .device-card:nth-child(2) { animation-delay: 0.1s; }
+    .devices-grid.visible .device-card:nth-child(3) { animation-delay: 0.2s; }
+    .devices-grid.visible .device-card:nth-child(4) { animation-delay: 0.3s; }
+    .devices-grid.visible .device-card:nth-child(5) { animation-delay: 0.4s; }
+    @keyframes devicePop {
+      from { opacity: 0; transform: translateY(30px) scale(0.92); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Why items — slide in from left */
+    .why-grid.visible .why-item {
+      animation: whySlide 0.6s var(--transition) both;
+    }
+    .why-grid.visible .why-item:nth-child(2) { animation-delay: 0.12s; }
+    .why-grid.visible .why-item:nth-child(3) { animation-delay: 0.24s; }
+    .why-grid.visible .why-item:nth-child(4) { animation-delay: 0.36s; }
+    @keyframes whySlide {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Payment badges — subtle bounce in */
+    .payment-row.visible .pay-badge {
+      animation: badgeBounce 0.5s var(--transition) both;
+    }
+    .payment-row.visible .pay-badge:nth-child(2) { animation-delay: 0.08s; }
+    .payment-row.visible .pay-badge:nth-child(3) { animation-delay: 0.16s; }
+    .payment-row.visible .pay-badge:nth-child(4) { animation-delay: 0.24s; }
+    @keyframes badgeBounce {
+      0% { opacity: 0; transform: translateY(15px) scale(0.9); }
+      70% { transform: translateY(-3px) scale(1.02); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ZIP button pulse */
+    .zip-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .zip-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .zip-btn:hover::after { transform: translateX(100%); }
+
+    /* Submit button breathing glow */
+    .btn-submit {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      transform: translate(-50%,-50%) scale(0);
+      transition: transform 0.6s;
+      border-radius: 50%;
+    }
+    .btn-submit:hover::before { transform: translate(-50%,-50%) scale(1); }
+
+    /* Hero floating particles */
+    .hero-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0,153,204,0.06);
+      pointer-events: none;
+    }
+    .hero-particle:nth-child(1) { width: 300px; height: 300px; top: 15%; left: -5%; animation: float1 8s ease-in-out infinite; }
+    .hero-particle:nth-child(2) { width: 200px; height: 200px; top: 60%; right: -3%; animation: float2 10s ease-in-out infinite; }
+    .hero-particle:nth-child(3) { width: 150px; height: 150px; bottom: 10%; left: 20%; animation: float3 12s ease-in-out infinite; }
+    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
+    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-25px,30px) scale(0.9); } }
+    @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px,-20px) scale(1.15); } }
+
+    /* Nav link hover underline */
+    .nav-links a { position: relative; }
+    .nav-links a:not(.nav-cta)::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1.5px;
+      background: var(--accent-blue);
+      transform: scaleX(0);
+      transition: transform 0.3s var(--transition);
+      transform-origin: center;
+    }
+    .nav-links a:not(.nav-cta):hover::after { transform: scaleX(1); }
+
+    /* SMS float bounce */
+    .sms-float {
+      animation: fadeUp 0.8s 1.2s var(--transition) forwards, smsBreathe 3s 2.5s ease-in-out infinite;
+    }
+    @keyframes smsBreathe {
+      0%,100% { box-shadow: 0 4px 24px rgba(0,0,0,0.2); }
+      50% { box-shadow: 0 6px 32px rgba(0,0,0,0.3); transform: scale(1.03); }
+    }
+
+    /* Form focus glow on group */
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0,153,204,0.08);
+      transform: translateY(-1px);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    /* Smooth counter for why-number */
+    .why-grid.visible .why-item .why-number {
+      animation: numberFade 0.6s var(--transition) both;
+    }
+    .why-grid.visible .why-item:nth-child(2) .why-number { animation-delay: 0.15s; }
+    .why-grid.visible .why-item:nth-child(3) .why-number { animation-delay: 0.3s; }
+    .why-grid.visible .why-item:nth-child(4) .why-number { animation-delay: 0.45s; }
+    @keyframes numberFade {
+      from { opacity: 0; transform: translateY(10px) scale(0.8); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .devices-grid { grid-template-columns: repeat(3, 1fr); }
+      .why-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .why-item { border-left: none; padding: 0; margin-bottom: 1rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+      .services-grid { grid-template-columns: 1fr; }
+      .devices-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid img { height: 200px; }
+      .steps-row { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .steps-row::before { display: none; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .appointment-form { padding: 2rem 1.5rem; }
+      .zone-badges { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .sms-float span { display: none; }
+      .sms-float { padding: 14px; border-radius: 50%; }
+      .hero-image-band img { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <img src="logo-dark.jpg" alt="Ifonos" style="height:30px;width:auto;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" />
+      <span style="display:none" class="nav-brand-text">ifonos<span>.com</span></span>
+    </a>
+    <button class="menu-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#services"><span data-en>Services</span><span data-es>Servicios</span></a></li>
+      <li><a href="#devices"><span data-en>Devices</span><span data-es>Dispositivos</span></a></li>
+      <li><a href="#zone"><span data-en>Coverage</span><span data-es>Cobertura</span></a></li>
+      <li><a href="#reviews"><span data-en>Reviews</span><span data-es>Reseñas</span></a></li>
+      <li><button class="nav-lang" onclick="toggleLang()" id="lang-btn">ES</button></li>
+      <li><a href="#appointment" class="nav-cta"><span data-en>Book Now</span><span data-es>Agendar</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-particle"></div>
+  <div class="hero-particle"></div>
+  <div class="hero-particle"></div>
+  <p class="hero-eyebrow"><span data-en>In-home device repair · Spring, TX</span><span data-es>Reparación a domicilio · Spring, TX</span></p>
+  <h1><span data-en>Your device.<br /><em>Fixed</em> at your door.</span><span data-es>Tu dispositivo.<br /><em>Reparado</em> en tu puerta.</span></h1>
+  <p class="hero-sub"><span data-en>Certified technicians come to you. No waiting rooms, no drop-offs — just expert repairs at your doorstep.</span><span data-es>Técnicos certificados van a ti. Sin esperas, sin filas — reparaciones profesionales en tu puerta.</span></p>
+  <div class="hero-actions">
+    <a href="#appointment" class="btn-primary"><span data-en>Book a Visit</span><span data-es>Agendar Visita</span></a>
+    <a href="#services" class="btn-secondary"><span data-en>Explore Services →</span><span data-es>Ver Servicios →</span></a>
+  </div>
+  <div class="hero-image-band">
+    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&q=80&auto=format" alt="Device repair workspace" />
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-wrap">
+    <div class="services-header reveal">
+      <p class="section-label"><span data-en>Services</span><span data-es>Servicios</span></p>
+      <h2 class="section-title"><span data-en>Everything your <em>device</em> needs</span><span data-es>Todo lo que tu <em>dispositivo</em> necesita</span></h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="10" x2="23" y2="14"/><rect x="4" y="9" width="6" height="6" rx="1" fill="currentColor" opacity="0.15"/></svg></div>
+        <div class="service-name"><span data-en>Battery Replacement</span><span data-es>Cambio de Batería</span></div>
+        <div class="service-desc"><span data-en>Restore original battery life with certified components.</span><span data-es>Recupera la autonomía original con componentes certificados.</span></div>
+        <div class="service-price"><span data-en>From $49</span><span data-es>Desde $49</span></div>
+      </div>
+      <!-- Screen -->
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01" stroke-width="2"/></svg></div>
+        <div class="service-name"><span data-en>Screen Replacement</span><span data-es>Cambio de Pantalla</span></div>
+        <div class="service-desc"><span data-en>High-quality OLED and LCD. No dead pixels, no discoloration.</span><span data-es>Pantallas OLED y LCD de alta calidad. Sin píxeles muertos.</span></div>
+        <div class="service-price"><span data-en>From $79</span><span data-es>Desde $79</span></div>
+      </div>
+      <!-- Charging -->
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div class="service-name"><span data-en>Charging Port</span><span data-es>Puerto de Carga</span></div>
+        <div class="service-desc"><span data-en>Lightning, USB-C or MagSafe connector repair.</span><span data-es>Reparación de conectores Lightning, USB-C o MagSafe.</span></div>
+        <div class="service-price"><span data-en>From $39</span><span data-es>Desde $39</span></div>
+      </div>
+      <!-- Camera -->
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="4"/><path d="M5 7h2l2-2h6l2 2h2a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2z"/></svg></div>
+        <div class="service-name"><span data-en>Camera Repair</span><span data-es>Reparación de Cámara</span></div>
+        <div class="service-desc"><span data-en>Full camera performance restoration for any device.</span><span data-es>Restauramos el rendimiento fotográfico al 100%.</span></div>
+        <div class="service-price"><span data-en>From $59</span><span data-es>Desde $59</span></div>
+      </div>
+      <!-- Water -->
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0L12 2.69z"/></svg></div>
+        <div class="service-name"><span data-en>Water Damage</span><span data-es>Daño por Líquidos</span></div>
+        <div class="service-desc"><span data-en>Specialized cleaning to recover water-damaged devices.</span><span data-es>Limpieza especializada para dispositivos mojados.</span></div>
+        <div class="service-price"><span data-en>From $69</span><span data-es>Desde $69</span></div>
+      </div>
+      <!-- Diagnosis -->
+      <div class="service-card">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="service-name"><span data-en>Free Diagnosis</span><span data-es>Diagnóstico Gratuito</span></div>
+        <div class="service-desc"><span data-en>We evaluate at no cost. You only pay if you decide to repair.</span><span data-es>Evaluamos sin costo. Solo pagas si decides reparar.</span></div>
+        <div class="service-price"><span data-en>100% Free</span><span data-es>100% Gratis</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEVICES -->
+<section id="devices">
+  <div class="devices-wrap">
+    <div class="devices-header reveal">
+      <p class="section-label"><span data-en>Devices</span><span data-es>Dispositivos</span></p>
+      <h2 class="section-title"><span data-en>We repair <em>all</em> your Apple devices</span><span data-es>Reparamos <em>todos</em> tus dispositivos Apple</span></h2>
+    </div>
+    <div class="devices-grid reveal">
+      <!-- iPhone -->
+      <div class="device-card">
+        <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="6" y="1" width="12" height="22" rx="2.5"/><line x1="12" y1="19" x2="12" y2="19.01" stroke-width="2"/></svg></div>
+        <div class="device-name">iPhone</div>
+        <div class="device-models">12 · 13 · 14 · 15 · 16<br/>Pro · Plus · Max</div>
+      </div>
+      <!-- MacBook -->
+      <div class="device-card">
+        <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/><line x1="6" y1="17" x2="6" y2="20"/><line x1="18" y1="17" x2="18" y2="20"/></svg></div>
+        <div class="device-name">MacBook</div>
+        <div class="device-models">Air · Pro<br/>M1 · M2 · M3 · M4</div>
+      </div>
+      <!-- iPad -->
+      <div class="device-card">
+        <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="4" y="1" width="16" height="22" rx="2.5"/><line x1="12" y1="19" x2="12" y2="19.01" stroke-width="2"/></svg></div>
+        <div class="device-name">iPad</div>
+        <div class="device-models">Air · Pro · Mini<br/>Standard iPad</div>
+      </div>
+      <!-- Apple Watch -->
+      <div class="device-card">
+        <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="4"/><path d="M9 1h6v3H9zM9 20h6v3H9z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="device-name">Apple Watch</div>
+        <div class="device-models">Series 6–10<br/>Ultra · SE</div>
+      </div>
+      <!-- AirPods -->
+      <div class="device-card">
+        <div class="device-icon"><svg viewBox="0 0 24 24"><ellipse cx="8" cy="14" rx="3" ry="4"/><line x1="8" y1="18" x2="8" y2="23"/><ellipse cx="16" cy="14" rx="3" ry="4"/><line x1="16" y1="18" x2="16" y2="23"/><rect x="5" y="2" width="14" height="8" rx="3"/></svg></div>
+        <div class="device-name">AirPods</div>
+        <div class="device-models">2nd · 3rd · 4th Gen<br/>Pro · Max</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO BREAK -->
+<div class="photo-break reveal">
+  <div class="photo-grid stagger-reveal reveal">
+    <img src="https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=600&q=80&auto=format" alt="iPhone repair" loading="lazy" />
+    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80&auto=format" alt="MacBook workspace" loading="lazy" />
+    <img src="https://images.unsplash.com/photo-1621768216002-5ac171876625?w=600&q=80&auto=format" alt="Repair tools" loading="lazy" />
+  </div>
+</div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-wrap">
+    <div class="why-header reveal">
+      <p class="section-label"><span data-en>Why Ifonos</span><span data-es>¿Por qué Ifonos?</span></p>
+      <h2 class="section-title"><span data-en>The experience you <em>deserve</em></span><span data-es>La experiencia que <em>mereces</em></span></h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-item">
+        <div class="why-number">01</div>
+        <div class="why-title"><span data-en>We come to you</span><span data-es>Vamos donde estés</span></div>
+        <div class="why-text"><span data-en>No driving, no waiting. Book online and our technician arrives at your schedule.</span><span data-es>Sin desplazamientos. Agenda en línea y llegamos a tu horario.</span></div>
+      </div>
+      <div class="why-item">
+        <div class="why-number">02</div>
+        <div class="why-title"><span data-en>Certified technicians</span><span data-es>Técnicos certificados</span></div>
+        <div class="why-text"><span data-en>Trained on all the latest iPhone, MacBook and iPad models.</span><span data-es>Capacitados en todos los modelos recientes de iPhone, MacBook e iPad.</span></div>
+      </div>
+      <div class="why-item">
+        <div class="why-number">03</div>
+        <div class="why-title"><span data-en>90-day warranty</span><span data-es>Garantía de 90 días</span></div>
+        <div class="why-text"><span data-en>All repairs include a 90-day warranty on parts and labor.</span><span data-es>90 días de garantía en refacciones y mano de obra.</span></div>
+      </div>
+      <div class="why-item">
+        <div class="why-number">04</div>
+        <div class="why-title"><span data-en>Transparent pricing</span><span data-es>Precio transparente</span></div>
+        <div class="why-text"><span data-en>We quote before we start. No hidden fees — ever.</span><span data-es>Cotizamos antes de empezar. Sin cargos ocultos.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONE -->
+<section id="zone">
+  <div class="zone-wrap">
+    <div class="zone-header reveal">
+      <p class="section-label"><span data-en>Coverage</span><span data-es>Cobertura</span></p>
+      <h2 class="section-title"><span data-en>Are you in our <em>service area?</em></span><span data-es>¿Estás en nuestra <em>área de servicio?</em></span></h2>
+      <p class="section-desc"><span data-en>Enter your ZIP code to check availability and estimated arrival.</span><span data-es>Ingresa tu código postal para ver disponibilidad y tiempo estimado.</span></p>
+    </div>
+    <div class="zone-box reveal">
+      <div class="zip-input-row">
+        <input type="text" class="zip-input" id="zip-input" maxlength="5" placeholder="ZIP" />
+        <button class="zip-btn" onclick="checkZone()"><span data-en>Check</span><span data-es>Verificar</span></button>
+      </div>
+      <div class="zone-result" id="zone-result">
+        <div class="zone-result-title" id="zone-title"></div>
+        <div class="zone-result-details" id="zone-details"></div>
+      </div>
+      <div class="zone-error" id="zone-error"><span data-en>This ZIP is outside our service area. Call us to check.</span><span data-es>Este código postal está fuera de nuestra área. Llámanos.</span></div>
+      <div class="zone-badges">
+        <div class="zone-badge"><div class="zb-dot green"></div><div class="zb-name">Zone 1</div><div class="zb-miles">0–5 mi</div><div class="zb-time green">30–60 min · Free</div></div>
+        <div class="zone-badge"><div class="zb-dot yellow"></div><div class="zb-name">Zone 2</div><div class="zb-miles">5–10 mi</div><div class="zb-time yellow">1–2 hrs · +$5</div></div>
+        <div class="zone-badge"><div class="zb-dot orange"></div><div class="zb-name">Zone 3</div><div class="zb-miles">10–20 mi</div><div class="zb-time orange">2–3 hrs · +$10</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="how-wrap">
+    <div class="how-header reveal">
+      <p class="section-label"><span data-en>Process</span><span data-es>Proceso</span></p>
+      <h2 class="section-title"><span data-en>As <em>simple</em> as four steps</span><span data-es>Tan <em>simple</em> como cuatro pasos</span></h2>
+    </div>
+    <div class="steps-row reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title"><span data-en>Book online</span><span data-es>Agenda en línea</span></div>
+        <div class="step-text"><span data-en>Fill the form with your device, issue and address. Under 2 minutes.</span><span data-es>Llena el formulario con tu dispositivo, problema y dirección.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title"><span data-en>We confirm</span><span data-es>Confirmamos</span></div>
+        <div class="step-text"><span data-en>We'll text you within 1 hour with a no-commitment quote.</span><span data-es>Te escribimos en menos de 1 hora con cotización.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title"><span data-en>Technician arrives</span><span data-es>El técnico llega</span></div>
+        <div class="step-text"><span data-en>Shows up on time with all tools and parts needed.</span><span data-es>Llega puntual con herramientas y refacciones.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title"><span data-en>Done, with warranty</span><span data-es>Listo, con garantía</span></div>
+        <div class="step-text"><span data-en>Device returned with written warranty. Zelle, Venmo, card or cash.</span><span data-es>Dispositivo con garantía. Zelle, Venmo, tarjeta o efectivo.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPOINTMENT -->
+<section id="appointment">
+  <div class="appt-wrap">
+    <div class="appt-header reveal">
+      <p class="section-label"><span data-en>Book a Visit</span><span data-es>Agendar Visita</span></p>
+      <h2 class="section-title"><span data-en>Schedule your <em>repair</em></span><span data-es>Agenda tu <em>reparación</em></span></h2>
+      <p class="section-desc"><span data-en>Free and no commitment. We'll get back to you within 1 hour.</span><span data-es>Gratis y sin compromiso. Respondemos en menos de 1 hora.</span></p>
+      <p class="appt-sub"><span data-en>Need faster support? Text (346) 795-5343</span><span data-es>¿Más rápido? Escribe al (346) 795-5343</span></p>
+    </div>
+    <div class="appointment-form reveal">
+      <div class="form-grid" id="form-fields">
+        <div class="form-group"><label><span data-en>Full Name</span><span data-es>Nombre</span></label><input type="text" id="f-name" placeholder="John Smith" /></div>
+        <div class="form-group"><label><span data-en>Phone</span><span data-es>Teléfono</span></label><input type="tel" id="f-phone" placeholder="(346) 000-0000" /></div>
+        <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="john@example.com" /></div>
+        <div class="form-group"><label><span data-en>Device</span><span data-es>Dispositivo</span></label><select id="f-device"><option value="">— Select —</option><option>iPhone</option><option>MacBook</option><option>iPad</option><option>Apple Watch</option><option>AirPods</option><option>Other</option></select></div>
+        <div class="form-group"><label><span data-en>Model</span><span data-es>Modelo</span></label><input type="text" id="f-model" placeholder="iPhone 15 Pro" /></div>
+        <div class="form-group"><label><span data-en>Service</span><span data-es>Servicio</span></label><select id="f-service"><option value="">— Select —</option><option>Battery Replacement</option><option>Screen Replacement</option><option>Charging Port</option><option>Camera Repair</option><option>Water Damage</option><option>Free Diagnosis</option><option>Other</option></select></div>
+        <div class="form-group"><label><span data-en>Preferred Date</span><span data-es>Fecha</span></label><input type="date" id="f-date" /></div>
+        <div class="form-group"><label><span data-en>Time</span><span data-es>Horario</span></label><select id="f-time"><option value="">— Select —</option><option>Morning (9am–12pm)</option><option>Midday (12pm–2pm)</option><option>Afternoon (2pm–5pm)</option><option>Evening (5pm–7pm)</option></select></div>
+        <div class="form-group form-full"><label><span data-en>Address + ZIP</span><span data-es>Dirección + ZIP</span></label><input type="text" id="f-address" placeholder="123 Main St, Spring TX 77373" /></div>
+        <div class="form-group form-full"><label><span data-en>Describe the issue</span><span data-es>Describe el problema</span></label><textarea id="f-issue" placeholder="Cracked screen, won't charge, water damage…"></textarea></div>
+      </div>
+      <div class="form-submit-row" id="submit-row">
+        <button class="btn-submit" onclick="submitForm()"><span data-en>Confirm Appointment</span><span data-es>Confirmar Cita</span></button>
+        <p class="form-note"><span data-en>Your information is private. We never share your data.</span><span data-es>Tu información es privada. No compartimos tus datos.</span></p>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="success-title"><span data-en>Appointment received!</span><span data-es>¡Cita recibida!</span></div>
+        <div class="success-sub"><span data-en>We'll text you within 1 hour to confirm. Urgent? Call (346) 795-5343.</span><span data-es>Te escribimos en 1 hora para confirmar. ¿Urgencia? Llama al (346) 795-5343.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<div class="payment-row reveal">
+  <div class="pay-badge"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> <span data-en>Card</span><span data-es>Tarjeta</span></div>
+  <div class="pay-badge"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Zelle</div>
+  <div class="pay-badge"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Venmo</div>
+  <div class="pay-badge"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="12" y1="6" x2="12" y2="18" opacity="0.3"/></svg> <span data-en>Cash</span><span data-es>Efectivo</span></div>
+</div>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-wrap">
+    <div class="reviews-header reveal">
+      <p class="section-label"><span data-en>Reviews</span><span data-es>Reseñas</span></p>
+      <h2 class="section-title"><span data-en>What our <em>clients</em> say</span><span data-es>Lo que dicen nuestros <em>clientes</em></span></h2>
+    </div>
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="review-text"><span data-en>Amazing service! They came to my house in Spring, changed my iPhone battery in 30 minutes and it works like new. Never going to a store again.</span><span data-es>¡Servicio increíble! Vinieron a mi casa en Spring, cambiaron la batería de mi iPhone en 30 minutos y funciona como nuevo.</span></div>
+        <div class="review-author"><div class="review-avatar">CL</div><div><div class="review-name">Carlos L.</div><div class="review-location">Spring, TX</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="review-text"><span data-en>My MacBook got water damaged and I thought it was gone. The technician diagnosed it and fully recovered it. Fair price and warranty included.</span><span data-es>Mi MacBook se mojó y pensé que estaba perdida. El técnico la diagnosticó y recuperó completamente. Precio justo y garantía.</span></div>
+        <div class="review-author"><div class="review-avatar">AM</div><div><div class="review-name">Andrea M.</div><div class="review-location">The Woodlands, TX</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="review-text"><span data-en>Super professional. They quoted me before starting — no hidden charges. My iPad has a new screen and works perfectly. 100% recommended!</span><span data-es>Súper profesionales. Me cotizaron antes de empezar, sin cargos ocultos. Mi iPad tiene pantalla nueva y funciona perfecto.</span></div>
+        <div class="review-author"><div class="review-avatar">RV</div><div><div class="review-name">Robert V.</div><div class="review-location">Tomball, TX</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <img src="logo-white.jpg" alt="Ifonos" style="height:34px;width:auto;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" />
+        <span style="display:none">ifonos<span>.com</span></span>
+      </div>
+      <p class="footer-tagline"><span data-en>Certified device repair delivered to your door.<br/>Serving Spring, TX and 20 miles around.</span><span data-es>Reparación certificada de dispositivos a domicilio.<br/>Spring, TX y 20 millas a la redonda.</span></p>
+      <div class="footer-contact">
+        <a href="tel:+13467955343">(346) 795-5343</a>
+        <a href="sms:+13467955343"><span data-en>Text us</span><span data-es>Escríbenos</span></a>
+        <a href="mailto:info@ifonos.com">info@ifonos.com</a>
+        <a href="https://ifonos.com">ifonos.com</a>
+      </div>
+      <div class="footer-hours"><span data-en>Mon–Sat</span><span data-es>Lun–Sáb</span> · <span style="color:#34c759;font-weight:500;">9 am – 7 pm</span></div>
+    </div>
+    <div class="footer-col">
+      <h4><span data-en>Services</span><span data-es>Servicios</span></h4>
+      <ul>
+        <li><a href="#services"><span data-en>Battery</span><span data-es>Batería</span></a></li>
+        <li><a href="#services"><span data-en>Screen</span><span data-es>Pantalla</span></a></li>
+        <li><a href="#services"><span data-en>Charging Port</span><span data-es>Puerto de Carga</span></a></li>
+        <li><a href="#services"><span data-en>Water Damage</span><span data-es>Daño por Líquidos</span></a></li>
+        <li><a href="#services"><span data-en>Diagnosis</span><span data-es>Diagnóstico</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span data-en>Company</span><span data-es>Compañía</span></h4>
+      <ul>
+        <li><a href="#why"><span data-en>About</span><span data-es>Nosotros</span></a></li>
+        <li><a href="#why"><span data-en>Warranty</span><span data-es>Garantía</span></a></li>
+        <li><a href="#zone"><span data-en>Coverage</span><span data-es>Cobertura</span></a></li>
+        <li><a href="#appointment"><span data-en>Book</span><span data-es>Agendar</span></a></li>
+      </ul>
+      <div class="footer-social">
+        <a href="https://instagram.com/ifonos" target="_blank">Instagram</a>
+        <a href="https://facebook.com/ifonos" target="_blank">Facebook</a>
+        <a href="https://tiktok.com/@ifonos" target="_blank">TikTok</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Ifonos. All rights reserved.</span>
+    <a href="tel:+13467955343" style="color:rgba(255,255,255,0.25);text-decoration:none;"><span data-en>Urgent? Call (346) 795-5343</span><span data-es>¿Urgencia? (346) 795-5343</span></a>
+  </div>
+</footer>
+
+<!-- SMS FLOAT -->
+<a href="sms:+13467955343" class="sms-float">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <span><span data-en>Text Us</span><span data-es>Escríbenos</span></span>
+</a>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  // ═══════════════════════════════════════════════════════
+  // 🔥 FIREBASE — Reemplaza con tus datos (ver SETUP.md)
+  // ═══════════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "AIzaSyBDVOiBZCHSDYitKtKwjPQeMv-oQ_76Bs8",
+    authDomain: "ifonos-web.firebaseapp.com",
+    projectId: "ifonos-web",
+    storageBucket: "ifonos-web.firebasestorage.app",
+    messagingSenderId: "1072129273797",
+    appId: "1:1072129273797:web:4366e9e655f61aaebaa5ac"
+  };
+
+  // ═══════════════════════════════════════════════════════
+  // 📧 EMAILJS — Reemplaza con tus datos (ver SETUP.md)
+  // ═══════════════════════════════════════════════════════
+  const EMAILJS_PUBLIC_KEY = 'PEGA_TU_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID = 'PEGA_TU_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'PEGA_TU_TEMPLATE_ID';
+
+  // ─── Initialize services ───
+  let db = null;
+  try {
+    if (firebaseConfig.apiKey !== 'PEGA_TU_API_KEY') {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    }
+  } catch(e) { console.warn('Firebase init error:', e); }
+
+  try {
+    if (EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+  } catch(e) { console.warn('EmailJS init error:', e); }
+
+  // ─── Date min (tomorrow) ───
+  const di = document.getElementById('f-date');
+  if(di){ const t=new Date(); t.setDate(t.getDate()+1); di.min=t.toISOString().split('T')[0]; }
+
+  // ─── Language toggle ───
+  let lang = 'en';
+  function toggleLang() {
+    lang = lang==='en'?'es':'en';
+    document.body.classList.toggle('es', lang==='es');
+    document.getElementById('lang-btn').textContent = lang==='en'?'ES':'EN';
+  }
+
+  // ─── Mobile menu toggle ───
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if(menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show-mobile');
+      const isOpen = navLinks.classList.contains('show-mobile');
+      menuToggle.innerHTML = isOpen
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('show-mobile');
+        menuToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+      });
+    });
+  }
+
+  // ─── ZIP zones ───
+  const zones = {
+    1: ['77373','77379','77388','77389','77380','77381','77382'],
+    2: ['77090','77068','77069','77070','77014','77066','77067','77339','77345','77354','77355','77386','77387'],
+    3: ['77301','77302','77303','77304','77306','77316','77318','77356','77357','77362','77363','77365','77372','77375','77377','77383','77384','77385','77091','77092','77093','77016','77018','77019','77022','77024','77025','77027','77032','77036','77037','77038','77040','77041','77042','77043','77044','77045','77047','77048','77055','77056','77057','77060','77061','77062','77063','77064','77065','77071','77072','77073','77074','77076','77077','77079','77080','77081','77082','77083','77084','77085','77086','77087','77088','77089','77094','77095','77096','77098','77099']
+  };
+
+  function checkZone() {
+    const zip = document.getElementById('zip-input').value.trim();
+    const resultEl = document.getElementById('zone-result');
+    const errorEl = document.getElementById('zone-error');
+    resultEl.classList.remove('show');
+    errorEl.classList.remove('show');
+    if(zip.length!==5||isNaN(zip)){ errorEl.classList.add('show'); return; }
+    let found=0;
+    for(let z=1;z<=3;z++){ if(zones[z].includes(zip)){found=z;break;} }
+    if(found===0){ errorEl.classList.add('show'); return; }
+    const isEs = lang==='es';
+    const data = [null,
+      {en:{t:'Zone 1 — We\'re nearby!',d:'Estimated arrival: <span>30–60 min</span> · Travel fee: <span>Free</span>'},es:{t:'Zona 1 — ¡Estamos cerca!',d:'Tiempo estimado: <span>30–60 min</span> · Cargo: <span>Gratis</span>'}},
+      {en:{t:'Zone 2 — We cover your area!',d:'Estimated arrival: <span>1–2 hours</span> · Travel fee: <span>+$5</span>'},es:{t:'Zona 2 — ¡Cubrimos tu área!',d:'Tiempo estimado: <span>1–2 horas</span> · Cargo: <span>+$5</span>'}},
+      {en:{t:'Zone 3 — Yes, we can come to you!',d:'Estimated arrival: <span>2–3 hours</span> · Travel fee: <span>+$10</span>'},es:{t:'Zona 3 — ¡Sí llegamos!',d:'Tiempo estimado: <span>2–3 horas</span> · Cargo: <span>+$10</span>'}}
+    ];
+    const d=data[found][isEs?'es':'en'];
+    document.getElementById('zone-title').textContent=d.t;
+    document.getElementById('zone-details').innerHTML=d.d+' · ZIP: '+zip;
+    resultEl.classList.add('show');
+  }
+  document.getElementById('zip-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkZone();});
+
+  // ─── FORM SUBMIT → Firebase + EmailJS + SMS ───
+  async function submitForm() {
+    const n = document.getElementById('f-name').value.trim();
+    const p = document.getElementById('f-phone').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const dv = document.getElementById('f-device').value;
+    const model = document.getElementById('f-model').value.trim();
+    const sv = document.getElementById('f-service').value;
+    const date = document.getElementById('f-date').value;
+    const time = document.getElementById('f-time').value;
+    const a = document.getElementById('f-address').value.trim();
+    const issue = document.getElementById('f-issue').value.trim();
+
+    if(!n||!p||!dv||!sv||!a){
+      alert(lang==='es'
+        ? 'Por favor completa: nombre, teléfono, dispositivo, servicio y dirección.'
+        : 'Please fill in: name, phone, device, service and address.');
+      return;
+    }
+
+    // Disable button while processing
+    const btn = document.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+
+    const appointment = {
+      id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+      name: n,
+      phone: p,
+      email: email,
+      device: dv,
+      model: model,
+      service: sv,
+      date: date,
+      time: time,
+      address: a,
+      issue: issue,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    };
+
+    // 1) Save to Firebase
+    if (db) {
+      try {
+        await db.collection('appointments').doc(appointment.id).set(appointment);
+      } catch(e) { console.warn('Firebase save error:', e); }
+    }
+
+    // 2) Send email notification via EmailJS
+    if (EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          client_name: n,
+          client_phone: p,
+          client_email: email || 'No proporcionado',
+          device: dv + (model ? ' — ' + model : ''),
+          service: sv,
+          date: date || 'No especificada',
+          time: time || 'No especificado',
+          address: a,
+          issue: issue || 'No descrito',
+          created: new Date().toLocaleString('es-US')
+        });
+      } catch(e) { console.warn('EmailJS error:', e); }
+    }
+
+    // 3) Show success message
+    document.getElementById('form-fields').style.display='none';
+    document.getElementById('submit-row').style.display='none';
+    document.getElementById('success-msg').classList.add('show');
+  }
+
+  // ─── Smooth scroll ───
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if(href === '#') return;
+      const target = document.querySelector(href);
+      if(target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ─── Scroll reveal ───
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(el => {
+      if(el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal, .stagger-reveal').forEach(el => obs.observe(el));
+
+  // ─── Parallax ───
+  const heroImg = document.querySelector('.hero-image-band');
+  if(heroImg) {
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if(scrollY < window.innerHeight) {
+        heroImg.style.transform = 'translateY(' + (scrollY * 0.08) + 'px)';
+      }
+    }, { passive: true });
+  }
+
+  // ─── Magnetic hover ───
+  document.querySelectorAll('.service-card, .device-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
+      card.style.transform = 'perspective(600px) rotateY(' + x + 'deg) rotateX(' + (-y) + 'deg)';
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  // ─── Nav shadow on scroll ───
+  const navEl = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    navEl.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.06)' : 'none';
+  }, { passive: true });
+
+  // ─── Phone formatting ───
+  const phoneInput = document.getElementById('f-phone');
+  if(phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      let val = this.value.replace(/\D/g, '');
+      if(val.length > 10) val = val.substring(0, 10);
+      if(val.length >= 7) {
+        this.value = '(' + val.substring(0,3) + ') ' + val.substring(3,6) + '-' + val.substring(6);
+      } else if(val.length >= 4) {
+        this.value = '(' + val.substring(0,3) + ') ' + val.substring(3);
+      } else if(val.length > 0) {
+        this.value = '(' + val;
+      }
+    });
+  }
+</script>
+</body>
+</html>
