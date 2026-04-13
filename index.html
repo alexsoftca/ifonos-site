@@ -155,7 +155,7 @@
 
     /* ─── NAV ─── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       height: 52px;
       display: flex; align-items: center;
       padding: 0 max(24px, env(safe-area-inset-left));
@@ -163,10 +163,12 @@
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 0.5px solid rgba(0,0,0,0.08);
+      overflow: visible;
     }
     .nav-inner {
       max-width: var(--max-w); width: 100%; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
+      overflow: visible;
     }
     .nav-logo { text-decoration: none; display: flex; align-items: center; }
     .nav-logo-text {
@@ -210,34 +212,39 @@
     /* ─── MOBILE MENU ─── */
     @media (max-width: 768px) {
       .nav-links.show-mobile {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         position: fixed;
-        top: 52px; left: 0; right: 0; bottom: 0;
+        top: 52px;
+        left: 0;
+        right: 0;
+        height: calc(100vh - 52px);
+        min-height: calc(100vh - 52px);
         background: #f5f5f7;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        padding: 2rem 1.5rem;
-        gap: 0.4rem;
-        z-index: 999;
+        padding: 1.5rem;
+        gap: 0;
+        z-index: 9999;
         animation: menuSlide 0.3s ease forwards;
         align-items: stretch;
         overflow-y: auto;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.15);
       }
-      .nav-links.show-mobile li { border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+      .nav-links.show-mobile li { border-bottom: 0.5px solid rgba(0,0,0,0.08); list-style: none; }
       .nav-links.show-mobile li:last-child { border-bottom: none; }
       .nav-links.show-mobile a {
-        display: block; font-size: 1.05rem;
-        padding: 1rem 0; color: #1d1d1f; font-weight: 500;
+        display: block; font-size: 1.1rem;
+        padding: 1.1rem 0.5rem; color: #1d1d1f; font-weight: 500;
       }
       .nav-links.show-mobile .nav-cta {
-        margin-top: 0.8rem; text-align: center;
-        padding: 14px 28px; display: block;
+        margin-top: 1.2rem; text-align: center;
+        padding: 16px 28px; display: block;
         color: #fff !important;
+        font-size: 1rem !important;
+        border-radius: 14px;
       }
       .nav-links.show-mobile .nav-lang {
-        margin-top: 0.5rem; align-self: flex-start;
-        font-size: 0.82rem; padding: 6px 14px;
+        margin-top: 0.8rem; align-self: flex-start;
+        font-size: 0.85rem; padding: 8px 16px;
       }
     }
     @keyframes menuSlide {
@@ -428,6 +435,52 @@
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── PIN ICON ANIMATIONS ─── */
+    .pin-bounce {
+      animation: pinDrop 2s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+    @keyframes pinDrop {
+      0%, 100% { transform: translateY(0); }
+      15% { transform: translateY(-8px); }
+      30% { transform: translateY(0); }
+      40% { transform: translateY(-3px); }
+      50% { transform: translateY(0); }
+    }
+    .pin-shadow {
+      animation: shadowPulse 2s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes shadowPulse {
+      0%, 100% { transform: scaleX(1); opacity: 0.3; }
+      15% { transform: scaleX(0.5); opacity: 0.1; }
+      30% { transform: scaleX(1); opacity: 0.3; }
+      40% { transform: scaleX(0.8); opacity: 0.2; }
+      50% { transform: scaleX(1); opacity: 0.3; }
+    }
+    .pulse-ring {
+      animation: ringPulse 2s ease-out infinite;
+      transform-origin: center;
+    }
+    @keyframes ringPulse {
+      0% { transform: scale(0.8); opacity: 0.6; }
+      50% { transform: scale(1.8); opacity: 0; }
+      100% { transform: scale(0.8); opacity: 0; }
+    }
+    .pulse-ring-2 {
+      animation: ringPulse 2s ease-out infinite 0.6s;
+      transform-origin: center;
+    }
+    .check-draw {
+      stroke-dasharray: 14;
+      stroke-dashoffset: 14;
+      animation: drawCheck 2s ease-in-out infinite;
+    }
+    @keyframes drawCheck {
+      0%, 40% { stroke-dashoffset: 14; }
+      60%, 100% { stroke-dashoffset: 0; }
     }
 
     /* ─── SECTION COMMONS ─── */
@@ -889,12 +942,12 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1024px) {
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .hero-content { padding: 2.5rem 0; }
+      .hero-content { padding: 2.5rem 0 1rem; }
       .hero h1 { max-width: 100%; }
       .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
       .hero-actions { justify-content: center; }
       .hero-trust { justify-content: center; }
-      .hero-cards { max-width: 400px; margin: 2rem auto 0; }
+      .hero-cards { max-width: 400px; margin: 1.5rem auto 0; padding-bottom: 2.5rem; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .devices-grid { grid-template-columns: repeat(3, 1fr); }
       .why-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
@@ -913,7 +966,8 @@
       .appointment-form { padding: 2rem 1.5rem; }
       .zone-badges { grid-template-columns: 1fr; }
       .why-grid { grid-template-columns: 1fr; }
-      .hero-cards { grid-template-columns: repeat(2, 1fr); max-width: 320px; }
+      .hero-cards { grid-template-columns: repeat(2, 1fr); max-width: 320px; padding-bottom: 2rem; }
+      .hero-wrapper { padding: 0 12px; }
       .sms-float span { display: none; }
       .sms-float { padding: 14px; border-radius: 50%; }
       .hero h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
@@ -992,7 +1046,22 @@
       <!-- Mobile Service -->
       <a href="#appointment" class="hero-card">
         <div class="hc-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 17h1l1-2h14l1 2h1a1 1 0 011 1v1a1 1 0 01-1 1H2a1 1 0 01-1-1v-1a1 1 0 011-1z"/><path d="M5 15V8a2 2 0 012-2h10a2 2 0 012 2v7"/><circle cx="7" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="20" r="1.5" fill="currentColor" stroke="none"/><path d="M9 10h6" stroke-width="1.2"/><path d="M12 10v3" stroke-width="1.2"/></svg>
+          <svg viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:52px;overflow:visible;">
+            <!-- Pulse rings from center of pin -->
+            <circle class="pulse-ring" cx="32" cy="26" r="14" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none"/>
+            <circle class="pulse-ring-2" cx="32" cy="26" r="14" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <!-- Shadow on ground -->
+            <ellipse class="pin-shadow" cx="32" cy="66" rx="10" ry="3" fill="rgba(255,255,255,0.25)" opacity="0.3"/>
+            <!-- Pin group with bounce -->
+            <g class="pin-bounce">
+              <!-- Pin shape -->
+              <path d="M32 4C21 4 12 12.7 12 23.2c0 14 20 38.8 20 38.8s20-24.8 20-38.8C52 12.7 43 4 32 4z" stroke="rgba(255,255,255,0.7)" stroke-width="2.8" fill="none"/>
+              <!-- Inner circle -->
+              <circle cx="32" cy="23" r="9" stroke="rgba(255,255,255,0.7)" stroke-width="2.4" fill="none"/>
+              <!-- Checkmark animated -->
+              <path class="check-draw" d="M26 23l4 4 8-9" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+          </svg>
         </div>
         <span class="hc-title"><span data-en>We Come to You</span><span data-es>Vamos a Tu Casa</span></span>
         <span class="hc-sub"><span data-en>Fast · Free diagnosis</span><span data-es>Rápido · Diagnóstico gratis</span></span>
@@ -1632,19 +1701,35 @@
   // ─── Mobile menu ───
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const navInner = document.querySelector('.nav-inner');
+  
+  function openMobileMenu() {
+    // Move menu to body so it's not nested inside fixed nav
+    document.body.appendChild(navLinks);
+    navLinks.classList.add('show-mobile');
+    menuToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeMobileMenu() {
+    navLinks.classList.remove('show-mobile');
+    // Move menu back inside nav
+    navInner.appendChild(navLinks);
+    menuToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+    document.body.style.overflow = '';
+  }
+  
   if(menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show-mobile');
       const isOpen = navLinks.classList.contains('show-mobile');
-      menuToggle.innerHTML = isOpen
-        ? '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>'
-        : '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
     });
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('show-mobile');
-        menuToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
-      });
+      link.addEventListener('click', () => closeMobileMenu());
     });
   }
 
