@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iFonos - Phone and Computer Repair | Mobile Repair Service Spring TX</title>
-  <meta name="description" content="iFonos - Phone and Computer Repair in Spring TX. iPhone screen & battery repair, PS5, PS4, Xbox, Nintendo Switch, Samsung, laptop repair. We come to you! Free diagnosis & 90-day warranty. Call (346) 795-5343." />
+  <title>iFonos - Phone & Computer Repair | Spring TX</title>
+  <meta name="description" content="Mobile repair in Spring TX. iPhone, PS5, Xbox, Samsung, laptop repair at your door. Free diagnosis, 90-day warranty. Call (346) 795-5343." />
   <meta name="keywords" content="phone repair Spring TX, iPhone repair Spring TX, PS5 repair Spring TX, Xbox repair near me, console repair Houston, computer repair Spring TX, mobile repair service, screen replacement, battery replacement" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="iFonos - Phone and Computer Repair" />
+  <meta name="publisher" content="iFonos LLC" />
   <link rel="canonical" href="https://ifonos.com/" />
 
   <!-- Open Graph -->
@@ -1238,7 +1239,7 @@
     </div>
     <div class="zone-box reveal">
       <div class="zip-row">
-        <input type="text" class="zip-input" id="zip-input" maxlength="5" placeholder="ZIP" />
+        <input type="text" class="zip-input" id="zip-input" maxlength="5" placeholder="ZIP" aria-label="ZIP code" />
         <button class="zip-btn" onclick="checkZone()"><span data-en>Check</span><span data-es>Verificar</span></button>
       </div>
       <div class="zone-result" id="zone-result">
@@ -1266,10 +1267,10 @@
     </div>
     <div class="appointment-form reveal">
       <div class="form-grid" id="form-fields">
-        <div class="form-group"><label><span data-en>Full Name</span><span data-es>Nombre</span></label><input type="text" id="f-name" placeholder="John Smith" /></div>
-        <div class="form-group"><label><span data-en>Phone / Text</span><span data-es>Teléfono / SMS</span></label><input type="tel" id="f-phone" placeholder="(346) 000-0000" /></div>
-        <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="john@example.com" /></div>
-        <div class="form-group"><label><span data-en>Device</span><span data-es>Dispositivo</span></label>
+        <div class="form-group"><label for="f-name"><span data-en>Full Name</span><span data-es>Nombre</span></label><input type="text" id="f-name" placeholder="John Smith" /></div>
+        <div class="form-group"><label for="f-phone"><span data-en>Phone / Text</span><span data-es>Teléfono / SMS</span></label><input type="tel" id="f-phone" placeholder="(346) 000-0000" /></div>
+        <div class="form-group"><label for="f-email">Email</label><input type="email" id="f-email" placeholder="john@example.com" /></div>
+        <div class="form-group"><label for="f-device"><span data-en>Device</span><span data-es>Dispositivo</span></label>
           <select id="f-device">
             <option value="">— Select —</option>
             <option>iPhone</option>
@@ -1285,8 +1286,8 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="form-group" id="model-group"><label><span data-en>Model</span><span data-es>Modelo</span></label><input type="text" id="f-model" placeholder="iPhone 15 Pro / PS5 Disc Edition" /></div>
-        <div class="form-group" id="service-group"><label><span data-en>Service</span><span data-es>Servicio</span></label>
+        <div class="form-group" id="model-group"><label for="f-model"><span data-en>Model</span><span data-es>Modelo</span></label><input type="text" id="f-model" placeholder="iPhone 15 Pro / PS5 Disc Edition" /></div>
+        <div class="form-group" id="service-group"><label for="f-service"><span data-en>Service</span><span data-es>Servicio</span></label>
           <select id="f-service">
             <option value="">— Select —</option>
             <option>Screen Replacement</option>
@@ -1302,8 +1303,8 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="form-group"><label><span data-en>Preferred Date</span><span data-es>Fecha</span></label><input type="date" id="f-date" /></div>
-        <div class="form-group"><label><span data-en>Time</span><span data-es>Horario</span></label>
+        <div class="form-group"><label for="f-date"><span data-en>Preferred Date</span><span data-es>Fecha</span></label><input type="date" id="f-date" /></div>
+        <div class="form-group"><label for="f-time"><span data-en>Time</span><span data-es>Horario</span></label>
           <select id="f-time">
             <option value="">— Select —</option>
             <option>Morning (9am–12pm)</option>
@@ -1312,8 +1313,8 @@
             <option>Evening (5pm–7pm)</option>
           </select>
         </div>
-        <div class="form-group form-full"><label><span data-en>Address + ZIP</span><span data-es>Dirección + ZIP</span></label><input type="text" id="f-address" placeholder="123 Main St, Spring TX 77373" /></div>
-        <div class="form-group form-full"><label><span data-en>Describe the issue</span><span data-es>Describe el problema</span></label><textarea id="f-issue" placeholder="Cracked screen, won't charge, HDMI no signal, disc not reading…"></textarea></div>
+        <div class="form-group form-full"><label for="f-address"><span data-en>Address + ZIP</span><span data-es>Dirección + ZIP</span></label><input type="text" id="f-address" placeholder="123 Main St, Spring TX 77373" /></div>
+        <div class="form-group form-full"><label for="f-issue"><span data-en>Describe the issue</span><span data-es>Describe el problema</span></label><textarea id="f-issue" placeholder="Cracked screen, won't charge, HDMI no signal, disc not reading…"></textarea></div>
       </div>
       <div class="form-submit-row" id="submit-row">
         <button class="btn-submit" onclick="submitForm()"><span data-en>Confirm Appointment</span><span data-es>Confirmar Cita</span></button>
@@ -1686,13 +1687,13 @@
     if (deviceModels[device]) {
       // Replace with select dropdown
       const models = deviceModels[device];
-      modelGroup.innerHTML = '<label><span data-en>Model</span><span data-es>Modelo</span></label>'
+      modelGroup.innerHTML = '<label for="f-model"><span data-en>Model</span><span data-es>Modelo</span></label>'
         + '<select id="f-model"><option value="">— Select Model —</option>'
         + models.map(m => '<option value="'+m+'">'+m+'</option>').join('')
         + '<option value="Other">Other / Not Listed</option></select>';
     } else {
       // Keep as text input
-      modelGroup.innerHTML = '<label><span data-en>Model</span><span data-es>Modelo</span></label>'
+      modelGroup.innerHTML = '<label for="f-model"><span data-en>Model</span><span data-es>Modelo</span></label>'
         + '<input type="text" id="f-model" placeholder="Enter your model" />';
     }
 
