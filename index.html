@@ -121,6 +121,9 @@
   }
   </script>
 
+  <!-- Google Maps Places Autocomplete -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDedUrYQPdyfs5oEXGQHza8OFvyGDLixhI&libraries=places&callback=initAutocomplete" async defer></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,700&display=swap" rel="stylesheet" />
   <style>
@@ -1491,6 +1494,25 @@
 <!-- Firebase & EmailJS loaded dynamically to prevent page blocking -->
 
 <script>
+  // ═══════════════════════════════════════════════════════
+  // 📍 GOOGLE PLACES AUTOCOMPLETE
+  // ═══════════════════════════════════════════════════════
+  function initAutocomplete() {
+    const addressInput = document.getElementById('f-address');
+    if (!addressInput) return;
+    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+      types: ['address'],
+      componentRestrictions: { country: 'us' },
+      fields: ['formatted_address']
+    });
+    autocomplete.addListener('place_changed', function() {
+      const place = autocomplete.getPlace();
+      if (place.formatted_address) {
+        addressInput.value = place.formatted_address;
+      }
+    });
+  }
+
   // ═══════════════════════════════════════════════════════
   // 🔥 FIREBASE CONFIG
   // ═══════════════════════════════════════════════════════
