@@ -878,6 +878,12 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* Fallback: if animations don't run, show content after 3s */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-badge, .hero h1, .hero-sub, .hero-actions, .hero-trust, .hero-cards,
+      .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1024px) {
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
@@ -918,7 +924,8 @@
 <nav id="main-nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-text">if<span>o</span>nos <span style="font-weight:300;font-size:0.7rem;color:var(--text-secondary);margin-left:2px;">Phone & Computer Repair</span></span>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAABICAYAAACgP/qyAAAhUUlEQVR42u19eZxVxfXnt6ru9vZ+vUI3SwPNItAsCgJicJlEjIDKKJAx/BDjhIwa4yQmM8lMAraJEydKfhoyyZgENTERaRI1RqJRBMEFBRQxsnSztCwNNEu/bvq9fsu9VfX7o+/DS/u2XgAl73w+9/OwvUvdqvM953tOnaoL5CUveclLXvKSl7zkJS95yUte8pKXvOQlL3nJywUt5AJrs8wPaV4uRGEAlM8pYPOSlx4p/mmlZ4zh3nvv9QQCgQIAZxwlJSXefHfl5UKhQAQABcAZYxg4cODUlpaWGxOJxFTLsgYmEgldCJE8jwNgfr//7UgkMotzTgGI/NDm5XwqLu3hPQilFIMHD77a5/O9riiKtPl92sPv97/FGEMPn52XvHRbaVkaCtNljySlZMFg8OcOxRcATACW/W/nYQIQfr//9TwA8nJeaZSUUrniiisqr7nmmv6KonSVZhEA5KGHHvIEAoGXCSHSpjdWFutv2R5gfR4AeTkvyv/oo4/qpaWlSwzDqNN1PabresTj8WytqKhYRClNKiXJ5kGklDQQCKy2FTuejfZ0AsCGPADycs75/vz58z0ul2uNbbHPOCil0ufzPeYAQTphhBAEg8H77PvkqvwySYG8Xu/L9nNYfmjyci6EEUJQVFT0C1sRYzZlSXJzDiBOKZUVFRVfzxATMABkyJAhoxRFcfL8XAGQACALCwsX2/dT8kOTl3NCfaZMmVKqaVrEofip6Al3uVw7pJQsDQ1ihBC43e5nHBY9k8IL+75W0lPoun5y4sSJfZJxRH548nLWrT8AVFVVXcMYSwar6ZRVqqoanzp16gD7WicVogAwfvz4gaqqxh3eI53yn/EcQog0DKOpsrJyWop7dxXQzplmlo8l/jWkp3RBcyhkeu0ihFmWpaf4XxSAOHTo0CzLsjTbqqdrkwRAVVU1GWNbCSEnPB7PpjFjxvxu7dq1jcl7dVP5JQCLMQZKKSzL4lJK9OCeebnAhQLAqFGjhqiqamWgQBwA13X90JIlSwwnfXLSH6/XuyIL/eEApGEY20aNGjWWMQZCyKfa010qt3TpUldhYeH/9ng873i93m3BYPBXY8aMGZSivXnJyydKRymFx+N5EanTlsIOjGVhYeFPbYXtHAQTxhg8Hs+WVBTHcR+hKEr7uHHjhnaiKEoPlZ/eeeedXr/f/1bnLJZhGE1jx44dhU9mt/OSl095AXLJJZcMMQzjaIoAVQKQHo9n8/XXX+9DmrkAQggYYzsyAMCyA9237DRnb2V5FAAIBoMPdMpi8SRwPR7P21LKPADykpkKjRkzZpjH43lJURTOGJOMMamqarvf739yxowZwRyoxPZsANA07eVeVEYCALW1tZphGA0OxT+DdjHG5PDhw6udgX9e8pISBJRSDBkyZNSwYcPmDR48eHZ1dfVgB0/PxqNzAcCr9v16DQBTpkwpVVW1zZmxcj6XUir79Olz3XkCQJLiKfazWaf/PhexSdLgsE4HPQfPJ53e2fnuvfb8XqMTQgi5d+/e7bYyJ0XtpFg9ClqllJkqTbNmozpLU1MTpJ3uSSfxeFz0cBBzGSjnMxjOLPY7I+Dv1FzmAG9vAo/izJR0OmGO9steBFzynXiW83v8/N4AgMgwAGYqzk8pPeN8znnWAaSUWoqiCCllynM559lbWis7Omz7fQQ1NVaX3nLOHIY7awleh0ANyVXhugLKpNJxxhjGjRs34tChQ1MSiUS1EKKfZVlM07QIpXSf1+vdNHXq1I0rVqwI2YBgOShLTp48OZ6MMcybNy/44Ycf9o9EImWUUg8ACCFOlpWVHVm8ePHBmTNnxu11GU7gdhcIyXfglFLMmjWrYPv27SMikcjgeDxe7Pf7/a2trcf9fn+T3+/fu3Dhwj3f/e53ow6DwHoRiLlRiBtuuKFA1/XVANYBWGv/Oo/XAKzzeDzL7UI1eL3ei/x+/zq/37/W/l1HKQ2noSHOybTmgoKCdclrHMeaYDC4bsSIETPTUhUpCZYsoZ252ODBg0sVRTmViQIFg8Fr0wIpgzIRQqDreo3dD2tS9M06AGs1TVs3bdq0agBQFAXl5eXzvF7vOlVVTUppyglBxpjUdf1IIBB41JGu7S4tOF3KTinF+PHjLyopKfm+1+tdp+v6cVVVZTKuSx6appkul2tvQUHBM/369fvqrbfeWuDwUqybVh9LliwxBg4ceIvf739e07QmRVEkpVQSQk4fdnwpdV3/OBAI/GnAgAE3LV261NVTdtEtAMyaNatM1/Ws9Tper3evozz6MuRe55PTQQiR5eXld6X0arW1p0tEy/+0f5Z31cm/lvx+978BwMCRE/tkBUBx8XUAUPSbbTcUPRt6tOrphvEk2QcdQXlKa0YIgWEYq7O1Xdd1OW/evIuqqqpG+ny+NzopvWV70c7H6VhJ07SWsrKyu20D09VSEJr0yoMHD57g9Xqf0TQtnqKwkTuye2fEaZRSaRjGoZKSkvscCQ/WleczxlBeXr7QMIwddmVB57IX57tbnY2B2+2uLysru/ujjz7SzlW8RgBg9uzZpbquhxyNtDodCQCW1+v9wAGAS1Ocn4uiixT3twDEKKWWo+BO6WypJ9Z+1Mf71IFa9lSjxKpTkv2ubjcBMGj06DJFUdIHwYzJgM6uvltKv/67egsrW6T6+/2JwB8PPCBtYKEjLkkJAJfLVZtsY5q2W5qmxYYOHfoIY6zVofS5FAQmFwNJSqksKChYbtdb5RogM9vquoPB4L+rqupU7GxFiaITKCQhROq6/nH//v3n2t4gGxgpAFx77bUlfr//rw7Fz/X9z3g+pVS6XK73Bw8ePLUrnqA33AXL4aApXK7z6IqrTnec2dlL1imYS/jAp+onfxjzvxumxhwejZiItHIu0C4BkA5rm/GR8Tg3o0ARUVSGlibLjMeVU8zzvzyxSWsmPf1hGQgRaUCQDNoz9o1pmvrevXvv4Zz77UHNVYmT9UtSCGG2trZ+rbCw8ElKKc+hTxkAPmbMmGEPP/zwmy0tLf/dNE3isO7ZMk2ds0NSSmnF4/GBhw8fXllQUPCordDpMoAUgLjiiisqN2zY8MapU6eu55wnlT7X93c+XwghrGg0Ov7gwYPr+/btu4gQInLR7wtzgqdWMtRcZZU9ufuqw9J4LS7IAERaLBAwENLVQjciAAFICUIVEECGT5rtzLjyQ6tg/Ree290fhAgskd3NbEEIkVQ81k1vrEopEy0tLfOLioq+b1tFlkn5x48fP6G+vv6NSCQyXkppOgxMd+MIBYDgnPOWlpZv+Xy+56SUagpPcDp+3Lx580vt7e3DbY/Tk1n9ZMqYm6Ypjx079lhFRcVXHID6FwLAtdcyzCW86umG8SGivWhawo1ElIOQHma8klEeIQBR0d5qRqk2fEur8vcvvro3cDrY7r4X7WleW5VSWqFQ6MfDhg0bYw8+TTHefNy4cUN37tz5ciwWK7XBovZiCpVJKc3W1tYb/X7/U4wx0en9KKVUvP7668va29tH2MrfW88XhBDFMIy/lpSUbEAOxYznAwAyBReW3bzu9NHh8ggQncSveK6h4FBc/iUB6oaV4LbV7+0wSEX7KTOqeUe/e0j+ntYQgVW91p/CEXDm2kcEALEsS2lsbPyZHch2trxk/vz5nrq6umdjsVgRMlff9hSMZjgcnltYWPhjQojloCx86NChl0Uikfn2+6lZxjxVAJ7qPJNSqvp8vj+Gw+Gbtm7dejiXNPT5AIBqd3ryN9cd3wg+PSuoADDsXxcIQNbXWFtbrEdihn8Q4u3W2VH+005BRaTFjBgFN5T8Ye/tmEt4DinSbCBPWm6FEMJIh+dK9lG2+QcGQMRisemVlZWXOmKKZGqWr169+mfRaHR0F5Rf5KiEn5pjsj3SD4cOHTo12RZCCI4cOXKHZVnZlJPj07PBzNEPTgMhKKVqIBBYFolE/s3B/7O283wsH9wNYFGnv9UA6Gs3mKQYAMoY2yGlfEQI0dmtdVyjeTdCSgz6097L93P9VrSFOAg9F+/HRCwsQhIPTq498Nw7cxDCFVcwbNjQHeUnlFLicrneNwzjb0KIXZqmeRKJxNRIJHJzIpHwpaE2Z/QX55yGQqFFhJBNzomyqqqqSxsaGu7MEiN0BiPLoKAsB4+EgwcP/lJKOYEQYi1evNh48MEHpyFLlS2llGma1qRp2vuEkP0ACOe80jTNasuyyu0N0DosqqqisLDwx8ePH19s60fOs+PnAwDHAPy209/uzgAAaU8SfZxIJH6bcsSFwKGGOlAAxxJiMVeUNLc6K0JhJqyEL1i8K9Z6Jwj5Ca69mwEbrC4qP1RVjQWDwW81NTUtt62Y7WjI8kmTJv2fbdu2PR6NRr+QBQQUAKLR6HXf+c53PEuXLo0AYJRSHDlypMayrFxSlMLm6kxV1UZFUbb4fL5jpmkqsVisyjTNiYlEwnBYWJIp4I7FYuNKSkpuAlC7YsWKvpzzsgzXCUqpKCgo+Mns2bOXPfHEE83J2V5CCBYuXOhbs2bNtFOnTs3inJcqinK4uLi4ds+ePRvsNHCXZoPPBwVKR2WyZUu0adOmKehYhXbmtXPmaJCSVD6zZ3QU6tWInpIZqQ/pznR5hpohQihi7TKaEIu+XXvAhZeXmV2lPYqi8IqKihuPHTv2WzuPnnT5ipRSfeedd/bMnDnzOpfLtTMLHaIAhGVZfZ999tmLk9Z62LBho2Ox2DU5ZJs4AKrr+sE+ffrctmjRopHRaPTGpqamRc3NzV+LxWLTLr744uqioqJliqIkgSSzjJ2MRqP3UkrR3NysCCFYJuAZhtHY1tZWs3z58mYhBJNS6lJKQwihPf74420HDhxY3dra+t/C4fB/DoVC39y9e/cGO+XM0cVSiM9VELxhw4bUQfCdtQKAPBkjc7nuyVIXIwHZpXSjpAAFYSRDMynMhDB1b/9VpjUNgADN+RGCEMKCweADH3/88T9sgHfmuCYAddWqVeGysrI77HURGe8phEBbW9vE5B+amppusSyLZu6bDsrj8Xg2Tp48+dLDhw8/uWzZslO2EipSSoVzTt955509zc3N3+rbt+8NjLH2LMEmA4B4PD5x+PDhQ6uqqk7S9PMvFICMxWL9vF7vE9XV1RdLKUEpjaNjMjHhNIhSSt3uL4ZuFgReGGnQK8EZAFPiGlgJR8ryU7ovQRk0StsIAClEFuslwRhTfECrtBIxUCWDJ5BSMFWGOa7tYraHqap6ZMGCBQ/Z45HOe5gA6MGDB9cbhrE5mdLMNL+QSCTG2P+msVjs2ixjLgAQXdf3T506deb69euP2okK0ikIFgColFI7ePDgC+Xl5V9jjGULODnnnDQ1Nc3csmVLM2MslIkhCCFYKBRauGvXrvfcbveHPp/vmeLi4sX9+vX7ysiRI8d99atf9VNKE+hYhZjIJd9/4QJASgJC5OUvNBZbQoyEGQdI2kkpQgGUGfipBOD3liqEEJLJdxtl5b5/J6TZRfj/I24fINMoHSEEVoIkLDGJdoArVwDA5XI9Z3P1bIpEOefEMIy/OWOHNDQTlmVVEkIwZsyYcsuyRmTh65IxRioqKr79yiuvNNvKb6Z5hrAVT21sbFzpdrufywJIIqVEPB6/UkoJRVE+cKQ404LGNE1Eo9GRra2t806cOFFz+PDhFfX19Vv//Oc/17nd7n+UlJR8f9iwYWMcO5N0ecHUheABCADsC0crOVN94JZM7QGkgGZQLRHefUDb+iIAcuP0L4QopafSBE6EEEIKA8EmAOjDxG9YvM3MEFsQWCYsiYE3/bLWCymQSxRuF81t6ELELg3D+MBR/JYJvyWUUoRCocFCCFeGzEDSE9Xt3bv3r1k8UWeqRQKBwCM2LctUOgHO+XApJTwezx8yGh4HdXLQQUsIwS3LQjwe7xMOh685ceLET/ft27fVMIz1ffr0udkGQpe8wecfAPe93rFQWJK+UHSk54JEQDWgUPoGnTuX49q7tfvvv7/dMIwXHAPu3G2Oapq267tPPf4+ALpzwco9jPPd0AwCpFiTICWB4JBSBPepgwvtXF7WFCpjDF6v9wByWzsg7GxRYyclSalwhBA/IQTt7e1ldt2+yHRfXdfX5lpD47hOzps37z1VVY9n8GDJXb+LFi5c6Js3b96fXS5XvR3o8xx01DkPkPR8XEppWZZFI5HItGPHjq1yuVxrJ0yYMDyHFO0FFgMAaBXQRSajIjscQ5HOmiUATPqClFKSSy655D6Px7MPgO5ID2q6rpsDBgy48xsTJpi4ZBFjpEaoKj0GwgBJZApTDkgJSoiheTV3FrrhRAD69+8vAGDOnDk5vWsgEDBzCIRhmqbknKOwsLDYNrgykycCsLc7cxePPPJIREp5wAmmVJJIJFhtba2xbNmyeHFx8W32ljrdWczjnCADAC6E4OFw+Kp//vOfb48ZM+byZDbrXwYAGmU5FeK0C0kBSXDlHAEAa9eubZo0adI0v9//pGEYjYZhHPd6va8MHDjwqvr6+nUAKLY8ZnX4+1zStRACjJ/Nd1VVtUsTHEII2QXF6h4P/YTSkEwgY4xZAMiBAwfe7tev3y32joDMEWB3R5JVoVY8Hi+sq6v769ixYyttgNILGwCjrpQAoIG3EsEz81DBEUmIKgoi8atVScpB1q5d29jW1nbbXXfdNfy2224b3t7ePr2+vv6tjtwyESBE/mhdg2FZfDB4ws6MpvAwlEICbZHjR07ZtvC8f7WSEIKWlpbj2ZTTnmwa2g1LLG+99VYfgAHZnqGqqrlo0aJk2ltpaGhYVV5efpXL5dpGKU1WgwqcuR6gK6IAMOPxeGFDQ8OjNGu5+4UAgO0dneRSyUGSiAoQkn6GNN4OS2LaF18+UIiR26W9TFLaWQq2dOnSyK9//euQPZ3eMRi1gkFK8rtGTOGGpxxmQiBVAEeIBFPACI4vDr0RysIGzl2OTEp4vd6jWXbUoAAQj8f/k5RSSaZEc6TQZM2aNZeaplmc4brk4v5jP/vZz8L2ORYAtn///o1/+ctfJpWVld3jcrl22inVJBhSpWCzKbUKQLS3t19fVVWVrir2QgqCOzrkKxMH7afAYSjqp7ZOOG0KuclNl79g89H4PaSmRmDUHMUZVDligI6F/lIShN6jlBAZMvkPeEd3ybQmVNHAKNk1r6YmYU+EnW8PIAGgoqJiN6W0HelnbSkAnkgkhlRWVs6x3z+XMhlKKZXNzc3fsYNsmakdjLE62yon9Y4DoNddd138yJEjv9i8efO4gQMHXldYWPj/3W73Dk3TLEqpsyDQCYpM1kVYloXm5uYbsun55x8AhEjUSnb/IBJTKdkE1ZAgJF2unsr2Nt5GjO/3+eOeqZg7OoHHtqiQktq1/B20SEqCWsmwCpR8Y4JZ+Ie9346q3i8h2paptFoSymAwukECyJ7lOycivv71r6vvvvvuMVVVd2QJUokQQhw9enTp9OnT++KTOv10K7pUAGZJScnC9vb267JlXuxNAt6wbRPp5B0IAHX06NHmvn37XgqFQndEIpHq8ePHjywvL58dDAZ/GAgEnna5XO9rmtZGKc22qInYQfcEO1kgL+wgePvrRAJwU/I8pZRACpJuGCAsanGuHbfUFypWNHyZfGOCCdLB808PDCEScwlncwkv/GPDvSHoP5exCM9ArwBCGIuFeZFbf/F0TPAZkFAopAgh4HK5XnJa4ww0qO+bb775kh1Emo5A0rlUUVBKzdLS0v9y/Pjxx0SH+c/4BSBFUXh5efk/UoCQdEpDQ0qpEULw7rvv7j506NDzzc3ND5w6deqriUTikgkTJowoLS1dqGna3myp41gsVmID7uwAQNd1Qj4Lpu6+KzkAjPSTvynRUyegaOlXAhFKYMWlJURhU5z+3ffUx48PrG2YsmRLo1sBpAJgxov7gwNWHJrpfmr/ayG4HubxmIDg6VdtSclheKDCenPPzRW7cMkiFfKzsat6nz59hP27wl74zrJwehGJRMbu3LlzU0lJyd1f+tKXShljglLKKaVcURQ5bty4sX6//4mTJ08+LYTQkLm6lNsB8Fs7duzYhTNXaVF0LKjnN954Y9Ho0aNHXH755SV2mUPyHA2AIaXUOefK22+/ffTo0aO/HzBgwO2UUpIl7Zpt37MeAyAupYx/JmjQknXK+tmDWnwqfgOXj0Bm0EBCCayEtBJxeYq6bjvUTt5+cFtsl/Hknvf0J/Z88MpRs67RIn9rk+rVor1VAJIi4xwDQAklhQZ9SABAif6Z8ayFhYUcAN25c+dOwzBedASgGUGQSCRKTp48+Yv169fv1HV9bXFxcW0gEPiLqqpbt2/fvrWlpWUh5/x0Ji1bitTn8z1sxwnUkboUt9xyS7CwsHD5Sy+9VFdXV/fRpk2b6nw+3zOVlZXTv/e97/lsMMTQUfdjARDr1q0zTp48uSibcrtcLpltvqS76wEkADz55JOtK1euPAqgCGe5AN9Ge2YvcJ8kk1e3PrzmWPN/jat6May4sMt/UoMAACKtnAOUq3r/OGH9O8JEE4hGOjIOJEtZpxQcbj9zmeH1R75WtRpLJEUNsUA+U58VkEIIMmDAgCX19fWz7B0gMo2XXc4kRCKRKEwkEle1t7ensuzZZls5AOZyud49evToi6SDQiZXolmTJ0+ueOGFF14Kh8PVjmuCiURiXjgcnrds2bLDXq/3PU3TPrIs65CU0lJVddCMGTNmRKPRatu8s3T6qSjKwVgsljE125MFMYxSygOBwOZYLDYS2Vcq9SiToWlaWzweT/8ydjC8em5BqPyP+751lLqfEVbCzNqmZFBrJcRpqihBMvJ9Z+aHqlCFmRjgVe/aKUFwHzrWt322RAJQduzYsS0QCPy8tbX1u/ZOEGqWQNK596h0pj6R24oyqSiK6Nu3712ONcoMgFVdXT1827ZtL0Wj0UH4ZFeI04Ex55xwzstjsVg5gFmEkM7JvYz6Zgfd77a1tWUEQI8UVkoJv9//J8bYWf84naIo76fIIJwp9prcI/MHr/TFWx4j/iIVHQOdk5Pp8BaE5pbCkRKUWszrZwEZvXvnnIHbUSspHCu5VFX9LH1eSUgpWU1NzQ/dbvcWW/lzWbXWeV1urlswWoQQpaio6If79u17zwEYPmLEiIvr6+vX28rPHdkm4nje6b1SAVhSSqvTfEAm3aWMMau0tPTFLJmvHgGAA6D79+9/zTCMt/DJdHavM3xFUWRZWdlz2V4GADAHQtZK1rKw6i6jPfR3+Aq7AoLckQ/CiSeoumOhB08uHP6b5EZcyTZLKcEY236WjEF3jI0EIO+55574iBEjbjIMozFJRc5CE01KqVpQUPDk8ePHf2pPrgGAHD58+FV79+59Kx6Pl+VAoyhSb5GeSW8tANTj8Ty7a9euPciyWKanlIUQQuSgQYPudNR09GYdjAmAeb3e2rq6uu3IZeUPIRJzIAiBmOmJzvYk2v7W4QnA0RupGSk5CCXMF1T8iZb/27Zw6A/kknUKaq6yOrlnlJWVPauqatKK9lpetKCg4DghJIaubwkvALD33nvvwIgRI65xu90HbYUye6l9AgAnhKiBQOCp5ubm2+3lj6eXKkaj0SZFUQ44QdmL+sIBME3TWkeOHPk/RNYFTz0HAAfAPvroow8rKioWaJpGHJ6gJy+W3J9SdblcBy666KJvOVb755YVksCquaPM8ILKGwKJtp8zt4dBNSiktLoFBCk5hORw+Ziq67HCRNudbbcO+b69Cx1PpWi7d+/+p8fjedzuk0QvDLYAQF999dUjmqZtzCGjk3bMPvjggx3jx4+/3OPxvEkIUR33kt1slwWAKorCCgoKftLa2rrA5v3CEUfgwIEDO6ZPn36Z1+tdbdf/kF7Ql6TlZ5qmoaKiYv7GjRv34xxtjMXRUdNRW1JSMkPX9SP4ZB+bZB0Hz6Hxzn1niK389dXV1V/euHHjsZzoTwoQEAK0Lqi8tw+NznQxsp36ggpUF4UUElJa9gqvjq0Pk4eUEpACUnL7HMDwMub1M680X6uk7VOOLxj0a1ErmU17Uq6aEkLQW2655R6/3/8mPim3/tSa5lyKtpxvJoQgJSUl/1NRFNPB5dMdacfsrbfeOhAOh68qLi7+saZpUce4df7yZyoD5Sxao5RSxe1276qoqJjR0tLyI9tgodP1EgB9/vnnT0aj0ZklJSX36Lp+rJO+8BzH2dkGCUDRNO1kv379ZjU0NLyYKxvprawNl1KyxsbGv0+ePPnioqKiR3Vdb2KMqXYdR2GW64vRsRGUZu8H0xIMBn9x9dVXT960adMOdPd7vYRIgEhZK1njLUNW/0Q/OLFERr/pouIDprsJvEEFLg+DolEQhYCwjoMpBKpB4fYz4g0qqsqEl1hr+2nipuiCAV/cPX/4B/hE+TNy7l/96lfh22+//ZpAIPCopmntttVLHiohRBFCqF00OKShoWFzcXHxDYZhHOp0T+fOGcXZYjhCiHXixInFQ4cOvaSgoOBxTdPa7DFzforo9Nc6HelTCkBhjFGXy7W7uLj4O3fccceE/fv3/z3L9iQCHXv8kKampl+MHj16XCAQeEDX9Ua7xMFZ5sDTgNq5/FFRVRWBQGDluHHjJu7bt291V6h4b2dumM0BcfPNNxdu2rRpUjgcHmuaZjgcDv9SpF8n+00ApQUFBZbb7d5VXV39xiuvvHKkVz9WXVvLMHcut2NYMmTV4akhU0w3LTHF4tYQCRRxIVTSoRUxwuhRldI6TVHeKHYpr+yZ3eefHT0qCZaAdOErMQQds52YOHHioIMHD17d3Nw8wE7pQtd1Mnny5N+sX7/+0JIlS2hNTU2u96WwJ5LWr18/68SJE0McaWIJgGiaFvrBD37wqH3PdHw4qUicEILLLrtsQH19/Yx4PH6daZpjLcvqa+8IcTo5RikNM8YadF3f6PP5Xrz//vtfve2222JOHeiqvixYsKDgtdde+3I4HL4+FotN5pxXcs4hkw7Zkd601xVIRVF2u93uV4qLi3+/e/fuLbZ+dSkOPRupy9Md2gtg6t1P3khJsArUabkpgGek1J56rSm4s9VUXS4XhhSp0ecu9YcYIZ9ANsW156FPUoKgF++VpCGglOKhhx5yPf300+XxeLw0FAq5PB4PGGOh4uLioxs3bjySVNAejtcZfUMpxY9+9CNj5cqVVdFodGgkEunPGCs7deoU9fl8AHDcMIz9wWBw1/Lly+snTpxoOgwlutofZzN3Tzq50EyDr6Rwz/Kstq22lmJ7CQGuTP/Nr9palvWcrisZTUNHZA/6mWWJr7rTRpGDMin49ERZT/UFXTQUSo5tPecA+PxIclvz++5L/kp7Wbn8F+8Z5+QUOqUu5Tl6LsmQeTrb7chLXvKSl7zkJS95yUte8pKXvOQlL3nJS17ykpe85CUvn2P5D060WE+ip3R1AAAAAElFTkSuQmCC" alt="iFonos - Phone and Computer Repair" style="height:32px;width:auto;object-fit:contain;" />
+      <span style="font-weight:300;font-size:0.7rem;color:var(--text-secondary);margin-left:8px;letter-spacing:-0.01em;white-space:nowrap;">Phone & Computer Repair</span>
     </a>
     <button class="menu-toggle" aria-label="Menu">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
@@ -1018,7 +1025,7 @@
     </div>
     <div class="services-grid reveal">
       <!-- Screen -->
-      <div class="service-card" onclick="location.href='#appointment'">
+      <div class="service-card" onclick="location.href='/services/iphone-repair'">
         <div class="service-icon-wrap"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01" stroke-width="2"/></svg></div>
         <div class="service-name"><span data-en>Screen Replacement</span><span data-es>Cambio de Pantalla</span></div>
         <div class="service-desc"><span data-en>OLED & LCD for iPhone, Samsung, iPad and more. Pixel-perfect quality.</span><span data-es>OLED y LCD para iPhone, Samsung, iPad y más. Calidad perfecta.</span></div>
@@ -1034,7 +1041,7 @@
         <a href="#appointment" class="service-cta"><span data-en>Book now →</span><span data-es>Agendar →</span></a>
       </div>
       <!-- Console Repair -->
-      <div class="service-card" onclick="location.href='#appointment'">
+      <div class="service-card" onclick="location.href='/services/game-console-repair'">
         <div class="service-icon-wrap"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="10" r="1"/><circle cx="16" cy="14" r="1"/><circle cx="14" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg></div>
         <div class="service-name"><span data-en>Console Repair</span><span data-es>Reparación de Consolas</span></div>
         <div class="service-desc"><span data-en>PS5, PS4, Xbox, Nintendo Switch — HDMI, disc drive, overheating, BLOD.</span><span data-es>PS5, PS4, Xbox, Nintendo Switch — HDMI, lector de disco, sobrecalentamiento, BLOD.</span></div>
@@ -1078,25 +1085,25 @@
     </div>
     <div class="devices-grid reveal">
       <!-- iPhone -->
-      <div class="device-card" onclick="location.href='#appointment'">
+      <div class="device-card" onclick="location.href='/services/iphone-repair'">
         <div class="device-icon-wrap"><svg viewBox="0 0 24 24"><rect x="6" y="1" width="12" height="22" rx="2.5"/><line x1="12" y1="19" x2="12" y2="19.01" stroke-width="2"/><line x1="9" y1="4" x2="15" y2="4" stroke-width="1"/></svg></div>
         <div class="device-name">iPhone</div>
         <div class="device-models">12 · 13 · 14 · 15 · 16<br>Pro · Plus · Max</div>
       </div>
       <!-- PS5 -->
-      <div class="device-card" onclick="location.href='#appointment'">
+      <div class="device-card" onclick="location.href='/services/game-console-repair'">
         <div class="device-icon-wrap"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2.5"/><circle cx="17" cy="10" r="1.2"/><circle cx="17" cy="14" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg></div>
         <div class="device-name">PS5 / PS4</div>
         <div class="device-models">HDMI · Disc Drive<br>BLOD · Overheating</div>
       </div>
       <!-- Xbox -->
-      <div class="device-card" onclick="location.href='#appointment'">
+      <div class="device-card" onclick="location.href='/services/game-console-repair'">
         <div class="device-icon-wrap"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2.5"/><line x1="15" y1="9" x2="19" y2="9"/><line x1="17" y1="7" x2="17" y2="11"/><circle cx="17" cy="15" r="1.2"/></svg></div>
         <div class="device-name">Xbox</div>
         <div class="device-models">Series X · Series S<br>One · One X</div>
       </div>
       <!-- Nintendo Switch -->
-      <div class="device-card" onclick="location.href='#appointment'">
+      <div class="device-card" onclick="location.href='/services/game-console-repair'">
         <div class="device-icon-wrap"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="3"/><rect x="2" y="4" width="7" height="16" rx="2"/><rect x="15" y="4" width="7" height="16" rx="2"/><circle cx="5.5" cy="10" r="1.5"/><circle cx="18.5" cy="14" r="1.5"/></svg></div>
         <div class="device-name">Nintendo Switch</div>
         <div class="device-models">Joy-Con Drift<br>Screen · Charging</div>
@@ -1202,8 +1209,8 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="form-group"><label><span data-en>Model</span><span data-es>Modelo</span></label><input type="text" id="f-model" placeholder="iPhone 15 Pro / PS5 Disc Edition" /></div>
-        <div class="form-group"><label><span data-en>Service</span><span data-es>Servicio</span></label>
+        <div class="form-group" id="model-group"><label><span data-en>Model</span><span data-es>Modelo</span></label><input type="text" id="f-model" placeholder="iPhone 15 Pro / PS5 Disc Edition" /></div>
+        <div class="form-group" id="service-group"><label><span data-en>Service</span><span data-es>Servicio</span></label>
           <select id="f-service">
             <option value="">— Select —</option>
             <option>Screen Replacement</option>
@@ -1360,13 +1367,12 @@
 <footer>
   <div class="footer-grid">
     <div>
-      <div class="footer-logo-text">if<span>o</span>nos</div>
-      <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin-top:-0.6rem;margin-bottom:1.2rem;font-weight:400;">Phone & Computer Repair</p>
+      <img src="data:image/png;base64,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" alt="iFonos - Phone and Computer Repair" style="height:38px;width:auto;object-fit:contain;margin-bottom:1rem;display:block;" />
       <p class="footer-tagline"><span data-en>iPhone, console & device repair at your door.<br>Serving Spring, TX and 20 miles around.</span><span data-es>Reparación de iPhone, consolas y dispositivos a domicilio.<br>Spring, TX y 20 millas a la redonda.</span></p>
       <div class="footer-contact">
         <a href="tel:+13467955343">📞 (346) 795-5343</a>
         <a href="sms:+13467955343">💬 <span data-en>Text us</span><span data-es>Escríbenos</span></a>
-        <a href="mailto:info@ifonos.com">✉️ info@ifonos.com</a>
+        <a href="/cdn-cgi/l/email-protection#e58c8b838aa58c838a8b8a96cb868a88">✉️ <span class="__cf_email__" data-cfemail="0f666169604f66696061607c216c6062">[email&#160;protected]</span></a>
         <a href="https://ifonos.com">🌐 ifonos.com</a>
       </div>
       <div class="footer-hours"><span data-en>Mon–Sat</span><span data-es>Lun–Sáb</span> · <span style="color:#30d158;font-weight:600;">9 am – 7 pm</span></div>
@@ -1374,23 +1380,23 @@
     <div class="footer-col">
       <h4><span data-en>Services</span><span data-es>Servicios</span></h4>
       <ul>
+        <li><a href="/services/iphone-repair"><span data-en>iPhone Repair</span><span data-es>Reparación iPhone</span></a></li>
+        <li><a href="/services/game-console-repair"><span data-en>PS5 / Xbox / Console</span><span data-es>PS5 / Xbox / Consolas</span></a></li>
         <li><a href="#services"><span data-en>Screen Repair</span><span data-es>Pantalla</span></a></li>
         <li><a href="#services"><span data-en>Battery</span><span data-es>Batería</span></a></li>
-        <li><a href="#services"><span data-en>Console Repair</span><span data-es>Consolas</span></a></li>
-        <li><a href="#services"><span data-en>Charging Port</span><span data-es>Puerto de Carga</span></a></li>
         <li><a href="#services"><span data-en>Water Damage</span><span data-es>Daño por Líquidos</span></a></li>
-        <li><a href="#services"><span data-en>Diagnosis</span><span data-es>Diagnóstico</span></a></li>
+        <li><a href="#services"><span data-en>Free Diagnosis</span><span data-es>Diagnóstico Gratis</span></a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4><span data-en>Devices</span><span data-es>Dispositivos</span></h4>
+      <h4><span data-en>Service Areas</span><span data-es>Áreas de Servicio</span></h4>
       <ul>
-        <li><a href="#devices">iPhone</a></li>
-        <li><a href="#devices">PS5 / PS4</a></li>
-        <li><a href="#devices">Xbox</a></li>
-        <li><a href="#devices">Nintendo Switch</a></li>
-        <li><a href="#devices">Samsung</a></li>
-        <li><a href="#devices">iPad / MacBook</a></li>
+        <li><a href="/service-areas/spring-tx">Spring TX</a></li>
+        <li><a href="/service-areas/the-woodlands-tx">The Woodlands TX</a></li>
+        <li><a href="/service-areas/houston-tx">Houston TX</a></li>
+        <li><a href="/service-areas/tomball-tx">Tomball TX</a></li>
+        <li><a href="/service-areas/humble-tx">Humble TX</a></li>
+        <li><a href="/service-areas/cypress-tx">Cypress TX</a></li>
       </ul>
       <div class="footer-social">
         <a href="https://instagram.com/ifonos" target="_blank">Instagram</a>
@@ -1411,11 +1417,7 @@
   <span><span data-en>Text Us</span><span data-es>Escríbenos</span></span>
 </a>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Firebase & EmailJS loaded dynamically to prevent page blocking -->
 
 <script>
   // ═══════════════════════════════════════════════════════
@@ -1437,20 +1439,181 @@
   const EMAILJS_SERVICE_ID = 'PEGA_TU_SERVICE_ID';
   const EMAILJS_TEMPLATE_ID = 'PEGA_TU_TEMPLATE_ID';
 
-  // ─── Initialize ───
+  // ─── Dynamic script loader (non-blocking) ───
   let db = null;
-  try {
-    if (firebaseConfig.apiKey !== 'PEGA_TU_API_KEY') {
-      firebase.initializeApp(firebaseConfig);
-      db = firebase.firestore();
-    }
-  } catch(e) { console.warn('Firebase init error:', e); }
 
-  try {
-    if (EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
-      emailjs.init(EMAILJS_PUBLIC_KEY);
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = () => { console.warn('Could not load: ' + src); resolve(); };
+      document.head.appendChild(s);
+    });
+  }
+
+  // Load Firebase & EmailJS after page renders
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      await loadScript('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
+      await loadScript('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js');
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log('Firebase connected');
+      }
+    } catch(e) { console.warn('Firebase init error:', e); }
+
+    try {
+      await loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js');
+      if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        console.log('EmailJS connected');
+      }
+    } catch(e) { console.warn('EmailJS init error:', e); }
+  });
+
+  // ─── DYNAMIC FORM: Models & Services per device ───
+  const deviceModels = {
+    'iPhone': [
+      'iPhone 17 Pro Max','iPhone 17 Pro','iPhone 17 Plus','iPhone 17',
+      'iPhone 16 Pro Max','iPhone 16 Pro','iPhone 16 Plus','iPhone 16',
+      'iPhone 15 Pro Max','iPhone 15 Pro','iPhone 15 Plus','iPhone 15',
+      'iPhone 14 Pro Max','iPhone 14 Pro','iPhone 14 Plus','iPhone 14',
+      'iPhone 13 Pro Max','iPhone 13 Pro','iPhone 13 Mini','iPhone 13',
+      'iPhone 12 Pro Max','iPhone 12 Pro','iPhone 12 Mini','iPhone 12',
+      'iPhone 11 Pro Max','iPhone 11 Pro','iPhone 11',
+      'iPhone XS Max','iPhone XS','iPhone XR',
+      'iPhone X',
+      'iPhone 8 Plus','iPhone 8',
+      'iPhone 7 Plus','iPhone 7',
+      'iPhone 6s Plus','iPhone 6s','iPhone 6 Plus','iPhone 6',
+      'iPhone SE (3rd Gen)','iPhone SE (2nd Gen)','iPhone SE (1st Gen)',
+      'iPhone 5s','iPhone 5c','iPhone 5'
+    ],
+    'PS5': [
+      'PS5 Disc Edition','PS5 Digital Edition',
+      'PS5 Slim Disc','PS5 Slim Digital',
+      'PS5 Pro'
+    ],
+    'PS4': [
+      'PS4 Original (CUH-1000/1100/1200)',
+      'PS4 Slim (CUH-2000/2100/2200)',
+      'PS4 Pro (CUH-7000/7100/7200)'
+    ],
+    'Xbox': [
+      'Xbox Series X','Xbox Series S',
+      'Xbox One X','Xbox One S','Xbox One S All-Digital',
+      'Xbox One (Original)'
+    ],
+    'Nintendo Switch': [
+      'Nintendo Switch OLED','Nintendo Switch V2',
+      'Nintendo Switch V1','Nintendo Switch Lite'
+    ]
+  };
+
+  const deviceServices = {
+    'iPhone': [
+      'Screen Replacement','Battery Replacement','Charging Port',
+      'Camera Repair (Rear)','Camera Repair (Front)',
+      'Back Glass Replacement','Speaker Repair','Microphone Repair',
+      'Water Damage','Face ID Repair',
+      'Free Diagnosis','Other'
+    ],
+    'Samsung / Android': [
+      'Screen Replacement','Battery Replacement','Charging Port',
+      'Camera Repair','Back Glass Replacement',
+      'Speaker Repair','Water Damage',
+      'Free Diagnosis','Other'
+    ],
+    'iPad / Tablet': [
+      'Screen Replacement','Battery Replacement','Charging Port',
+      'Home Button Repair','Camera Repair',
+      'Water Damage','Free Diagnosis','Other'
+    ],
+    'MacBook / Laptop': [
+      'Screen Replacement','Battery Replacement','Keyboard Replacement',
+      'Charging Port / MagSafe','Trackpad Repair',
+      'Fan / Overheating Fix','SSD Upgrade','RAM Upgrade',
+      'Water Damage','Software / OS Issues',
+      'Free Diagnosis','Other'
+    ],
+    'PS5': [
+      'HDMI Port Repair','Disc Drive Repair','Overheating / Thermal Paste',
+      'No Power / Power Supply','BLOD (Blinking Light)',
+      'SSD Upgrade','Controller Repair',
+      'Cleaning / Maintenance','Free Diagnosis','Other'
+    ],
+    'PS4': [
+      'HDMI Port Repair','Disc Drive Repair','Overheating / Thermal Paste',
+      'BLOD (Blue Light of Death)','WLOD (White Light)',
+      'No Power / Power Supply','Controller Repair',
+      'Cleaning / Maintenance','Free Diagnosis','Other'
+    ],
+    'Xbox': [
+      'HDMI Port Repair','Disc Drive Repair','Overheating / Thermal Paste',
+      'No Power / Power Supply','E-Code Error Fix',
+      'Controller Repair','Cleaning / Maintenance',
+      'Free Diagnosis','Other'
+    ],
+    'Nintendo Switch': [
+      'Joy-Con Drift Fix (Left)','Joy-Con Drift Fix (Right)','Joy-Con Drift Fix (Both)',
+      'Screen Replacement','Charging Port Repair',
+      'Game Card Slot Repair','Battery Replacement',
+      'Dock Repair / No TV Output','Rail Connector Repair',
+      'Fan Replacement','Free Diagnosis','Other'
+    ],
+    'Apple Watch': [
+      'Screen Replacement','Battery Replacement',
+      'Crown / Button Repair','Water Damage',
+      'Free Diagnosis','Other'
+    ],
+    'AirPods': [
+      'Battery Replacement','Charging Case Repair',
+      'Audio / Sound Issues','Free Diagnosis','Other'
+    ]
+  };
+
+  const defaultServices = [
+    'Screen Replacement','Battery Replacement','Charging Port',
+    'Camera Repair','Water Damage',
+    'HDMI Port Repair','Disc Drive Repair','Overheating Fix',
+    'Joy-Con Drift Fix','Free Diagnosis','Other'
+  ];
+
+  function updateFormForDevice(device) {
+    const modelGroup = document.getElementById('model-group');
+    const serviceSelect = document.getElementById('f-service');
+
+    // Update MODEL field
+    if (deviceModels[device]) {
+      // Replace with select dropdown
+      const models = deviceModels[device];
+      modelGroup.innerHTML = '<label><span data-en>Model</span><span data-es>Modelo</span></label>'
+        + '<select id="f-model"><option value="">— Select Model —</option>'
+        + models.map(m => '<option value="'+m+'">'+m+'</option>').join('')
+        + '<option value="Other">Other / Not Listed</option></select>';
+    } else {
+      // Keep as text input
+      modelGroup.innerHTML = '<label><span data-en>Model</span><span data-es>Modelo</span></label>'
+        + '<input type="text" id="f-model" placeholder="Enter your model" />';
     }
-  } catch(e) { console.warn('EmailJS init error:', e); }
+
+    // Update SERVICE field
+    const services = deviceServices[device] || defaultServices;
+    serviceSelect.innerHTML = '<option value="">— Select Service —</option>'
+      + services.map(s => '<option value="'+s+'">'+s+'</option>').join('');
+
+    // Re-apply language if Spanish
+    if (lang === 'es') {
+      document.body.classList.add('es');
+    }
+  }
+
+  // Listen for device change
+  document.getElementById('f-device').addEventListener('change', function() {
+    updateFormForDevice(this.value);
+  });
 
   // ─── Date min (tomorrow) ───
   const di = document.getElementById('f-date');
@@ -1551,7 +1714,7 @@
       catch(e) { console.warn('Firebase save error:', e); }
     }
 
-    if (EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
+    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'PEGA_TU_PUBLIC_KEY') {
       try {
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
           client_name: n, client_phone: p,
