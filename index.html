@@ -133,8 +133,8 @@
       --text: #1d1d1f;
       --text-secondary: #6e6e73;
       --text-muted: #a1a1a6;
-      --accent: #0099cc;
-      --accent-dark: #0077a3;
+      --accent: #0077a3;
+      --accent-dark: #006d99;
       --accent-glow: rgba(0,153,204,0.15);
       --green: #30d158;
       --border: rgba(0,0,0,0.06);
@@ -338,7 +338,7 @@
     .hero-sub {
       margin-top: 1.5rem;
       font-size: clamp(0.92rem, 1.4vw, 1.05rem);
-      font-weight: 300; color: rgba(255,255,255,0.45);
+      font-weight: 300; color: rgba(255,255,255,0.7);
       max-width: 420px; line-height: 1.7;
       opacity: 0; animation: fadeUp 0.9s 0.35s var(--ease) forwards;
     }
@@ -380,7 +380,7 @@
     }
     .trust-item {
       display: flex; align-items: center; gap: 6px;
-      font-size: 0.72rem; color: rgba(255,255,255,0.3); font-weight: 400;
+      font-size: 0.72rem; color: rgba(255,255,255,0.7); font-weight: 400;
     }
     .trust-item .t-icon { font-size: 0.9rem; }
 
@@ -433,7 +433,7 @@
       transform: scale(1.12);
     }
     .hc-title { font-size: 0.82rem; font-weight: 600; color: #fff; position: relative; z-index: 1; }
-    .hc-sub { font-size: 0.65rem; color: rgba(255,255,255,0.3); margin-top: 3px; position: relative; z-index: 1; }
+    .hc-sub { font-size: 0.65rem; color: rgba(255,255,255,0.7); margin-top: 3px; position: relative; z-index: 1; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
@@ -606,7 +606,7 @@
 
     /* ─── WHY ─── */
     #why { background: #0f0f10; color: #f5f5f7; padding: 120px max(24px, 5%); }
-    #why .section-label { color: rgba(255,255,255,0.25); }
+    #why .section-label { color: rgba(255,255,255,0.6); }
     #why .section-title { color: #f5f5f7; }
     #why .section-title em { color: #33bbee; }
     .why-header { margin-bottom: 3.5rem; }
@@ -628,7 +628,7 @@
       margin-bottom: 1rem; transition: text-shadow 0.4s;
     }
     .why-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.5rem; color: #f5f5f7; }
-    .why-text { font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.65; font-weight: 300; }
+    .why-text { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.65; font-weight: 300; }
 
     /* ─── ZONE ─── */
     #zone { background: var(--surface); }
@@ -684,9 +684,9 @@
     .zb-name { font-size: 0.72rem; font-weight: 600; color: var(--text); }
     .zb-miles { font-size: 0.68rem; color: var(--text-secondary); }
     .zb-time { font-size: 0.68rem; font-weight: 600; margin-top: 0.2rem; }
-    .z1 .zb-time { color: #30d158; }
-    .z2 .zb-time { color: #c79c00; }
-    .z3 .zb-time { color: #ff6b35; }
+    .z1 .zb-time { color: #0f7b30; }
+    .z2 .zb-time { color: #7a6000; }
+    .z3 .zb-time { color: #b34d00; }
 
     /* ─── HOW ─── */
     #how { background: var(--bg); }
@@ -833,7 +833,7 @@
     .review-location { font-size: 0.72rem; color: var(--text-secondary); }
 
     /* ─── FOOTER ─── */
-    footer { background: #0f0f10; color: rgba(255,255,255,0.45); padding: 70px max(24px, 5%) 40px; }
+    footer { background: #0f0f10; color: rgba(255,255,255,0.75); padding: 70px max(24px, 5%) 40px; }
     .footer-grid {
       max-width: var(--max-w); margin: 0 auto;
       display: grid; grid-template-columns: 2fr 1fr 1fr;
@@ -845,27 +845,27 @@
     .footer-tagline { font-size: 0.82rem; line-height: 1.65; margin-bottom: 1.5rem; font-weight: 300; }
     .footer-contact { display: flex; flex-direction: column; gap: 7px; }
     .footer-contact a {
-      color: rgba(255,255,255,0.4); font-size: 0.82rem;
+      color: rgba(255,255,255,0.75); font-size: 0.82rem;
       text-decoration: none; transition: color 0.2s; font-weight: 300;
       display: flex; align-items: center; gap: 8px;
     }
     .footer-contact a:hover { color: #fff; }
-    .footer-hours { margin-top: 1rem; font-size: 0.78rem; color: rgba(255,255,255,0.25); }
-    .footer-col h4 {
+    .footer-hours { margin-top: 1rem; font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .footer-col h3 {
       color: #f5f5f7; font-size: 0.78rem; font-weight: 600;
       margin-bottom: 1.2rem; letter-spacing: 0.05em; text-transform: uppercase;
     }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-    .footer-col ul a { color: rgba(255,255,255,0.4); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; font-weight: 300; }
+    .footer-col ul a { color: rgba(255,255,255,0.75); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; font-weight: 300; }
     .footer-col ul a:hover { color: #fff; }
     .footer-social { display: flex; gap: 1rem; margin-top: 1.5rem; }
-    .footer-social a { color: rgba(255,255,255,0.35); font-size: 0.78rem; text-decoration: none; transition: color 0.2s; }
+    .footer-social a { color: rgba(255,255,255,0.75); font-size: 0.78rem; text-decoration: none; transition: color 0.2s; }
     .footer-social a:hover { color: var(--accent); }
     .footer-bottom {
       max-width: var(--max-w); margin: 2rem auto 0;
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
-      font-size: 0.72rem; color: rgba(255,255,255,0.18);
+      font-size: 0.72rem; color: rgba(255,255,255,0.6);
     }
 
     /* ─── FAQ ─── */
@@ -999,6 +999,8 @@
     </ul>
   </div>
 </nav>
+
+<main>
 
 <!-- HERO -->
 <div class="hero-wrapper">
@@ -1437,6 +1439,8 @@
 }
 </script>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -1452,7 +1456,7 @@
       <div class="footer-hours"><span data-en>Mon–Sat</span><span data-es>Lun–Sáb</span> · <span style="color:#30d158;font-weight:600;">9 am – 7 pm</span></div>
     </div>
     <div class="footer-col">
-      <h4><span data-en>Services</span><span data-es>Servicios</span></h4>
+      <h3><span data-en>Services</span><span data-es>Servicios</span></h3>
       <ul>
         <li><a href="iphone-repair.html"><span data-en>iPhone Repair</span><span data-es>Reparación iPhone</span></a></li>
         <li><a href="game-console-repair.html"><span data-en>PS5 / Xbox / Console</span><span data-es>PS5 / Xbox / Consolas</span></a></li>
@@ -1463,7 +1467,7 @@
       </ul>
     </div>
     <div class="footer-col">
-      <h4><span data-en>Service Areas</span><span data-es>Áreas de Servicio</span></h4>
+      <h3><span data-en>Service Areas</span><span data-es>Áreas de Servicio</span></h3>
       <ul>
         <li><a href="spring-tx.html">Spring TX</a></li>
         <li><a href="the-woodlands-tx.html">The Woodlands TX</a></li>
@@ -1481,12 +1485,12 @@
   </div>
   <div class="footer-bottom">
     <span>© 2026 iFonos - Phone and Computer Repair (iFonos LLC). All rights reserved.</span>
-    <a href="tel:+13467955343" style="color:rgba(255,255,255,0.25);text-decoration:none;"><span data-en>Urgent? (346) 795-5343</span><span data-es>¿Urgencia? (346) 795-5343</span></a>
+    <a href="tel:+13467955343" style="color:rgba(255,255,255,0.6);text-decoration:none;"><span data-en>Urgent? (346) 795-5343</span><span data-es>¿Urgencia? (346) 795-5343</span></a>
   </div>
 </footer>
 
 <!-- SMS FLOAT -->
-<a href="sms:+13467955343" class="sms-float">
+<a href="sms:+13467955343" class="sms-float" aria-label="Text us at (346) 795-5343">
   <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   <span><span data-en>Text Us</span><span data-es>Escríbenos</span></span>
 </a>

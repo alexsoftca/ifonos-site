@@ -31,7 +31,7 @@
   <style>
     :root {
       --bg: #f5f5f7; --surface: #fff; --text: #1d1d1f;
-      --text-secondary: #6e6e73; --accent: #0099cc; --accent-dark: #0077a3;
+      --text-secondary: #6e6e73; --accent: #0077a3; --accent-dark: #006d99;
       --border: rgba(0,0,0,0.06); --radius: 20px; --max-w: 1120px;
       --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
@@ -72,10 +72,10 @@
     /* CTA */
     .cta-box { background: linear-gradient(160deg, #0a0c10, #111b2b); border-radius: var(--radius); padding: 3rem; text-align: center; margin: 3rem 0; }
     .cta-box h2 { color: #fff; font-size: 1.6rem; margin: 0 0 0.8rem; }
-    .cta-box p { color: rgba(255,255,255,0.5); max-width: 100%; text-align: center; }
+    .cta-box p { color: rgba(255,255,255,0.75); max-width: 100%; text-align: center; }
     .cta-box .btn { display: inline-block; background: var(--accent); color: #fff; padding: 15px 36px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 0.92rem; margin-top: 1.5rem; transition: all 0.2s; }
     .cta-box .btn:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(0,153,204,0.3); }
-    .cta-box .phone { color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-top: 1rem; }
+    .cta-box .phone { color: rgba(255,255,255,0.75); font-size: 0.85rem; margin-top: 1rem; }
     .cta-box .phone a { color: var(--accent); text-decoration: none; font-weight: 600; }
 
     /* Models list */
@@ -83,7 +83,7 @@
     .model-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 980px; padding: 6px 16px; font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); }
 
     /* Footer mini */
-    .mini-footer { background: #0f0f10; color: rgba(255,255,255,0.3); padding: 30px 24px; text-align: center; font-size: 0.72rem; }
+    .mini-footer { background: #0f0f10; color: rgba(255,255,255,0.7); padding: 30px 24px; text-align: center; font-size: 0.72rem; }
     .mini-footer a { color: var(--accent); text-decoration: none; }
 
     @media (max-width: 768px) {
@@ -99,6 +99,8 @@
     <a href="index.html" class="nav-back">← Back to Home</a>
   </div>
 </nav>
+
+<main>
 
 <div class="page-hero">
   <div class="breadcrumb"><a href="index.html">Home</a> › <a href="index.html#services">Services</a> › iPhone Repair</div>
@@ -183,6 +185,8 @@
     <div class="phone">Or text/call <a href="tel:+13467955343">(346) 795-5343</a></div>
   </div>
 </div>
+
+</main>
 
 <div class="mini-footer">
   © 2026 <a href="index.html">iFonos - Phone and Computer Repair</a> · Spring, TX · <a href="tel:+13467955343">(346) 795-5343</a>
